@@ -1,6 +1,5 @@
 import Image from "next/image";
 import SideNav from '@/app/ui/dashboard/sidenav';
-import { barlow } from '@/app/ui/fonts';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
