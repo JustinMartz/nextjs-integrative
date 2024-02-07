@@ -6,4 +6,5 @@ export type Client = {
     address: string,
     phone: string,
     active: boolean,
+    reminderPreference: string
 }
