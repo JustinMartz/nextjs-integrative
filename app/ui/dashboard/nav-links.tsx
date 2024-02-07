@@ -3,7 +3,8 @@
 import {
   UserGroupIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
+  CalendarDaysIcon,
+  BanknotesIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -14,11 +15,10 @@ import clsx from 'clsx';
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   {
-    name: 'Clients',
-    href: '/dashboard/clients',
-    icon: DocumentDuplicateIcon,
+    name: 'Clients', href: '/dashboard/clients', icon: UserGroupIcon,
   },
-  { name: 'Scheduling', href: '/dashboard/scheduling', icon: UserGroupIcon },
+  { name: 'Scheduling', href: '/dashboard/scheduling', icon: CalendarDaysIcon },
+  { name: 'Billing', href: '/dashboard/billing', icon: BanknotesIcon}
 ];
 
 export default function NavLinks() {
