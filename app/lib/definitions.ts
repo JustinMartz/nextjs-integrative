@@ -40,3 +40,10 @@ export type Address = {
     state: string;
     postalCode: string;
 };
+
+export type ClientField = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    active: boolean;
+}
