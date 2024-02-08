@@ -1,14 +1,13 @@
-import { Reminder, Privelege } from "./definitions.ts";
+// const { Reminder, Privelege } = require("./definitions.ts");
 
-const users = [
+const providers = [
   {
     id: "410544b2-4001-4271-9855-fec4b6a6442a",
-    username: "rosie",
+    email: "rosie@rosiescouch.com",
     firstName: "Roseanne",
     lastName: "Robinson",
     password: "123456",
-    email: "rosie@rosiescouch.com",
-    privelege: Privelege.PROVIDER,
+    privelege: 5,
     practiceName: "Rosie's Couch",
   },
 ];
@@ -22,7 +21,7 @@ const clients = [
     addressId: "d487e0b9-3b90-43a7-a464-d243f87242a1",
     phone: "516-676-5509",
     active: true,
-    reminderPreference: Reminder.TEXT,
+    reminderPreference: 1,
     dateOfBirth: new Date(1990, 5, 15),
   },
   {
@@ -33,7 +32,7 @@ const clients = [
     addressId: "fee1f86d-f20f-4766-807d-dcc0a78e9b38",
     phone: "872-989-1701",
     active: true,
-    reminderPreference: Reminder.EMAIL,
+    reminderPreference: 2,
     dateOfBirth: new Date(1992, 3, 9),
   },
   {
@@ -44,7 +43,7 @@ const clients = [
     addressId: "93b39bf9-d165-48a8-9fff-9f13217c2c20",
     phone: "720-556-5588",
     active: false,
-    reminderPreference: Reminder.EMAIL,
+    reminderPreference: 2,
     dateOfBirth: new Date(1985, 2, 10),
   },
   {
@@ -55,7 +54,7 @@ const clients = [
     addressId: "5a121d61-048d-4d00-9700-d93e6b89d076",
     phone: "303-455-1656",
     active: true,
-    reminderPreference: Reminder.NONE,
+    reminderPreference: 0,
     dateOfBirth: new Date(1985, 11, 25),
   },
   {
@@ -66,7 +65,7 @@ const clients = [
     addressId: "7f4b18ce-8338-4543-bfb5-111ccd3d00cf",
     phone: "768-387-7832",
     active: true,
-    reminderPreference: Reminder.BOTH,
+    reminderPreference: 3,
     dateOfBirth: new Date(1979, 10, 30),
   },
   {
@@ -77,7 +76,7 @@ const clients = [
     addressId: "111a52e0-8c36-42d8-a86e-8c493623f283",
     phone: "376-507-1212",
     active: false,
-    reminderPreference: Reminder.NONE,
+    reminderPreference: 0,
     dateOfBirth: new Date(1994, 1, 3),
   },
   {
@@ -88,7 +87,7 @@ const clients = [
     addressId: "78d6b362-35ed-4e0a-81ab-8bfa87635c10",
     phone: "719-245-1600",
     active: true,
-    reminderPreference: Reminder.TEXT,
+    reminderPreference: 1,
     dateOfBirth: new Date(1975, 5, 15),
   },
   {
@@ -99,7 +98,7 @@ const clients = [
     addressId: "842ab688-d8ea-475e-ae0f-7a6ad81d2b4b",
     phone: "614-434-9844",
     active: true,
-    reminderPreference: Reminder.EMAIL,
+    reminderPreference: 2,
     dateOfBirth: new Date(1989, 7, 19),
   },
   {
@@ -110,7 +109,7 @@ const clients = [
     addressId: "830d192e-1d38-4fb5-8f91-f03f2f3d2207",
     phone: "303-404-5383",
     active: true,
-    reminderPreference: Reminder.NONE,
+    reminderPreference: 0,
     dateOfBirth: new Date(1970, 9, 20),
   },
   {
@@ -121,7 +120,7 @@ const clients = [
     addressId: "fce96327-986c-40ad-b2b2-5ae30d1f65b1",
     phone: "916-422-4290",
     active: true,
-    reminderPreference: Reminder.EMAIL,
+    reminderPreference: 2,
     dateOfBirth: new Date(1983, 7, 11),
   },
 ];
@@ -202,7 +201,7 @@ const addresses = [
 ];
 
 module.exports = {
-  users,
+  providers,
   clients,
   addresses
 };

@@ -1,24 +1,24 @@
-export interface User {
-    id: string,
-    email: string,
-    firstName: string,
-    lastName: string,
-    password: string,
-    privelege: Privelege,
-    practiceName: string
-}
+export type Provider = {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
+    privelege: Privelege;
+    practiceName: string;
+};
 
-export interface Client {
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    addressId: string,
-    phone: string,
-    active: boolean,
-    reminderPreference: Reminder,
-    dateOfBirth: Date
-}
+export type Client = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    addressId: string;
+    phone: string;
+    active: boolean;
+    reminderPreference: Reminder;
+    dateOfBirth: Date;
+};
 
 export enum Privelege {
     ADMIN = 5,
@@ -32,14 +32,11 @@ export enum Reminder {
     BOTH = 3
 }
 
-export interface Address {
+export type Address = {
     id: string;
+    unit?: string;
     street: string;
     city: string;
     state: string;
     postalCode: string;
-}
-
-export interface AddressWithUnit extends Address {
-    unit: string;
-}
+};

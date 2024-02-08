@@ -1,6 +1,10 @@
-import { db } from '@vercel/postgres';
-import { clients, users, addresses } from '../app/lib/placeholder-data.js';
-import { hash } from 'bcrypt';
+const { db } = require('@vercel/postgres');
+const {
+  addresses,
+  clients,
+  providers,
+} = require('../app/lib/placeholder-data.js');
+const bcrypt = require('bcrypt');
 
 async function seedAddresses(client) {
     try {
@@ -13,7 +17,7 @@ async function seedAddresses(client) {
             unit VARCHAR(255),
             city VARCHAR(255) NOT NULL,
             state VARCHAR(255) NOT NULL,
-            postal_code VARCHAR(255) NOT NULL,
+            postal_code VARCHAR(255) NOT NULL
           );
         `;
     
@@ -43,12 +47,12 @@ async function seedAddresses(client) {
       }   
 }
 
-async function seedUsers(client) {
+async function seedProviders(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    // Create the "user" table if it doesn't exist
+    // Create the "provider" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS user (
+      CREATE TABLE IF NOT EXISTS provider (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         email TEXT NOT NULL UNIQUE,
         first_name VARCHAR(255),
@@ -59,29 +63,29 @@ async function seedUsers(client) {
       );
     `;
 
-    console.log(`Created "users" table`);
+    console.log(`Created "provider" table`);
 
-    // Insert data into the "users" table
-    const insertedUsers = await Promise.all(
-      users.map(async (user) => {
-        const hashedPassword = await hash(user.password, 10);
+    // Insert data into the "provider" table
+    const insertedProviders = await Promise.all(
+      providers.map(async (provider) => {
+        const hashedPassword = await bcrypt.hash(provider.password, 10);
         return client.sql`
-        INSERT INTO users (id, email, first_name, last_name, password, privelege, practice_name)
-        VALUES (${user.id}, ${user.email}, ${user.firstName}, ${user.lastName}, ${hashedPassword}, ${user.privelege},
-            ${user.practiceName})
+        INSERT INTO provider (id, email, first_name, last_name, password, privelege, practice_name)
+        VALUES (${provider.id}, ${provider.email}, ${provider.firstName}, ${provider.lastName}, ${hashedPassword}, ${provider.privelege},
+            ${provider.practiceName})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
     );
 
-    console.log(`Seeded ${insertedUsers.length} users`);
+    console.log(`Seeded ${insertedProviders.length} providers`);
 
     return {
       createTable,
-      users: insertedUsers,
+      providers: insertedProviders,
     };
   } catch (error) {
-    console.error('Error seeding users:', error);
+    console.error('Error seeding providers:', error);
     throw error;
   }
 }
@@ -96,7 +100,12 @@ async function seedClients(dbClient) {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         firstName VARCHAR(255) NOT NULL,
         lastName VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL
+        email VARCHAR(255) NOT NULL,
+        address_id UUID REFERENCES address(id),
+        phone VARCHAR(255),
+        active BOOL DEFAULT 't',
+        reminder_preference INTEGER,
+        date_of_birth DATE
       );
     `;
 
@@ -106,8 +115,9 @@ async function seedClients(dbClient) {
     const insertedClients = await Promise.all(
       clients.map(
         (client) => dbClient.sql`
-        INSERT INTO client (id, firstName, ,lastName, email, dateOfBirth)
-        VALUES (${client.id}, ${client.firstName}, ${client.lastName}, ${client.email}, ${client.dateOfBirth})
+        INSERT INTO client (id, firstName, lastName, email, address_id, phone, active, reminder_preference, date_of_birth)
+        VALUES (${client.id}, ${client.firstName}, ${client.lastName}, ${client.email}, ${client.addressId},
+        ${client.phone}, ${client.active}, ${client.reminderPreference}, ${client.dateOfBirth})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
@@ -128,8 +138,8 @@ async function seedClients(dbClient) {
 async function main() {
   const dbClient = await db.connect();
 
+  await seedProviders(dbClient);
   await seedAddresses(dbClient);
-  await seedUsers(dbClient);
   await seedClients(dbClient);
 
   await dbClient.end();
