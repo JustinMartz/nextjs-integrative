@@ -1,17 +1,61 @@
 import { db } from '@vercel/postgres';
-import { clients, users } from '../app/lib/placeholder-data.js';
+import { clients, users, addresses } from '../app/lib/placeholder-data.js';
 import { hash } from 'bcrypt';
+
+async function seedAddresses(client) {
+    try {
+        await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+        // Create the "address" table if it doesn't exist
+        const createTable = await client.sql`
+          CREATE TABLE IF NOT EXISTS address (
+            id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+            street VARCHAR(255) NOT NULL,
+            unit VARCHAR(255),
+            city VARCHAR(255) NOT NULL,
+            state VARCHAR(255) NOT NULL,
+            postal_code VARCHAR(255) NOT NULL,
+          );
+        `;
+    
+        console.log(`Created "address" table`);
+    
+        // Insert data into the "address" table
+        const insertedAddresses = await Promise.all(
+          addresses.map(async (address) => {
+            return client.sql`
+            INSERT INTO address (id, street, unit, city, state, postal_code)
+            VALUES (${address.id}, ${address.street}, ${address.unit}, ${address.city}, ${address.state}, 
+                ${address.postalCode})
+            ON CONFLICT (id) DO NOTHING;
+          `;
+          }),
+        );
+    
+        console.log(`Seeded ${insertedAddresses.length} addresses`);
+    
+        return {
+          createTable,
+          addresses: insertedAddresses,
+        };
+      } catch (error) {
+        console.error('Error seeding addresses:', error);
+        throw error;
+      }   
+}
 
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    // Create the "users" table if it doesn't exist
+    // Create the "user" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS users (
+      CREATE TABLE IF NOT EXISTS user (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
         email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        first_name VARCHAR(255),
+        last_name VARCHAR(255),
+        password TEXT NOT NULL,
+        privelege INTEGER,
+        practice_name VARCHAR(255)
       );
     `;
 
@@ -22,8 +66,9 @@ async function seedUsers(client) {
       users.map(async (user) => {
         const hashedPassword = await hash(user.password, 10);
         return client.sql`
-        INSERT INTO users (id, name, email, password)
-        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+        INSERT INTO users (id, email, first_name, last_name, password, privelege, practice_name)
+        VALUES (${user.id}, ${user.email}, ${user.firstName}, ${user.lastName}, ${hashedPassword}, ${user.privelege},
+            ${user.practiceName})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
@@ -83,6 +128,7 @@ async function seedClients(dbClient) {
 async function main() {
   const dbClient = await db.connect();
 
+  await seedAddresses(dbClient);
   await seedUsers(dbClient);
   await seedClients(dbClient);
 

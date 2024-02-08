@@ -1,10 +1,9 @@
 export interface User {
     id: string,
-    username: string,
+    email: string,
     firstName: string,
     lastName: string,
     password: string,
-    email: string,
     privelege: Privelege,
     practiceName: string
 }
@@ -14,7 +13,7 @@ export interface Client {
     firstName: string,
     lastName: string,
     email: string,
-    address: Address | AddressWithUnit,
+    addressId: string,
     phone: string,
     active: boolean,
     reminderPreference: Reminder,
@@ -34,6 +33,7 @@ export enum Reminder {
 }
 
 export interface Address {
+    id: string;
     street: string;
     city: string;
     state: string;
