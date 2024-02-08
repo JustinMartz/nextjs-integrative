@@ -94,12 +94,12 @@ async function seedClients(dbClient) {
   try {
     await dbClient.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-    // Create the "customers" table if it doesn't exist
+    // Create the "client" table if it doesn't exist
     const createTable = await dbClient.sql`
       CREATE TABLE IF NOT EXISTS client (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        firstName VARCHAR(255) NOT NULL,
-        lastName VARCHAR(255) NOT NULL,
+        first_name VARCHAR(255) NOT NULL,
+        last_name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         address_id UUID REFERENCES address(id),
         phone VARCHAR(255),
@@ -115,7 +115,7 @@ async function seedClients(dbClient) {
     const insertedClients = await Promise.all(
       clients.map(
         (client) => dbClient.sql`
-        INSERT INTO client (id, firstName, lastName, email, address_id, phone, active, reminder_preference, date_of_birth)
+        INSERT INTO client (id, first_name, last_name, email, address_id, phone, active, reminder_preference, date_of_birth)
         VALUES (${client.id}, ${client.firstName}, ${client.lastName}, ${client.email}, ${client.addressId},
         ${client.phone}, ${client.active}, ${client.reminderPreference}, ${client.dateOfBirth})
         ON CONFLICT (id) DO NOTHING;
