@@ -3,6 +3,7 @@ const {
   addresses,
   clients,
   providers,
+  appointments
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
@@ -135,12 +136,52 @@ async function seedClients(dbClient) {
   }
 }
 
+async function seedAppointments(dbClient) {
+  try {
+    await dbClient.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "client" table if it doesn't exist
+    const createTable = await dbClient.sql`
+      CREATE TABLE IF NOT EXISTS appointment (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        start_time TIMESTAMP  NOT NULL,
+        end_time TIMESTAMP NOT NULL,
+        client_id UUID REFERENCES client(id) NOT NULL
+      );
+    `;
+
+    console.log(`Created "appointment" table`);
+
+    // Insert data into the "appointment" table
+    const insertedAppointments = await Promise.all(
+      appointments.map(
+        (appointment) => dbClient.sql`
+        INSERT INTO appointment (id, start_time, end_time, client_id)
+        VALUES (${appointment.id}, ${appointment.startTime}, ${appointment.endTime}, ${appointment.clientId})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+      ),
+    );
+
+    console.log(`Seeded ${insertedAppointments.length} appointments`);
+
+    return {
+      createTable,
+      appointments: insertedAppointments,
+    };
+  } catch (error) {
+    console.error('Error seeding appointments:', error);
+    throw error;
+  }
+}
+
 async function main() {
   const dbClient = await db.connect();
 
   await seedProviders(dbClient);
   await seedAddresses(dbClient);
   await seedClients(dbClient);
+  await seedAppointments(dbClient);
 
   await dbClient.end();
 }

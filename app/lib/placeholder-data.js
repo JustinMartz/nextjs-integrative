@@ -200,50 +200,80 @@ const addresses = [
   }
 ];
 
+
 function dateString(dayIncrement, hour, minutes) {
   const currentDate = new Date();
-  foo = currentDate.getFullYear() + '-' + ('0' + (currentDate.getMonth()+1)).slice(-2)
-  + '-' + ('0' + (currentDate.getDate() + dayIncrement)).slice(-2) + 'T'
-  + hour + ':' + minutes + ':00.000';
-  return foo;
+  currentDate.setUTCHours(hour, minutes, 0, 0); // Set the hour and minute in UTC
+  currentDate.setUTCDate(currentDate.getUTCDate() + dayIncrement); // Increment the date
+  return currentDate.toISOString().slice(0, -1); // Return the ISO string
 }
 
 const appointments = [
   {
     id: "ac7bba72-3286-4ca1-a440-4ec69748a3b6",
-    startTime: new Date(dateString(1, '09', '00')),
-    endTime: new Date(dateString(1, '10', '00')),
+    startTime: new Date(dateString(1, 9, 0)),
+    endTime: new Date(dateString(1, 10, 0)),
     clientId: "3958dc9e-712f-4377-85e9-fec4b6a6442a" // Robert Martinez
   },
   {
     id: "e3d2bef9-4eb9-4bc4-a62c-f4aa16c98828",
-    startTime: new Date(dateString(1, '10', '30')),
-    endTime: new Date(dateString(1, '11', '30')),
+    startTime: new Date(dateString(1, 10, 30)),
+    endTime: new Date(dateString(1, 11, 30)),
     clientId: "13D07535-C59E-4157-A011-F8D2EF4E0CBB" // Ben Nevis
   },
   {
     id: "f1cfcb11-cade-4211-84e6-518bc41e364d",
-    startTime: new Date(dateString(1, '12', '00')),
-    endTime: new Date(dateString(1, '13', '30')),
+    startTime: new Date(dateString(1, 12, 0)),
+    endTime: new Date(dateString(1, 13, 30)),
     clientId: "126eed9c-c90c-4ef6-a4a8-fcf7408d3c66" // Sarah Brown
   },
   {
     id: "7a5be497-2125-42b9-bbe5-ef14e009f634",
-    startTime: new Date(dateString(2, '10', '00')),
-    endTime: new Date(dateString(2, '11', '00')),
+    startTime: new Date(dateString(2, 10, 0)),
+    endTime: new Date(dateString(2, 11, 0)),
     clientId: "3958dc9e-742f-4377-85e9-fec4b6a6442a" // Emily Johnson
   },
   {
     id: "ca781e2b-524a-4193-bc2e-39a9effa23e1",
-    startTime: new Date(dateString(2, '11', '00')),
-    endTime: new Date(dateString(2, '12', '30')),
+    startTime: new Date(dateString(2, 11, 0)),
+    endTime: new Date(dateString(2, 12, 30)),
     clientId: "126eed9c-c90c-4ef6-a4a8-fcf7408d3c66" // Sarah Brown
-  }
-
+  },
+  {
+    id: "020ef319-968d-454c-ac82-93dcdcf6b088",
+    startTime: new Date(dateString(3, 18, 30)),
+    endTime: new Date(dateString(3, 19, 30)),
+    clientId: "CC27C14A-0ACF-4F4A-A6C9-D45682C144B9" // Al Dente
+  },
+  {
+    id: "ef7f6fa7-5ebf-41d4-9fc9-fe6fa9520e44",
+    startTime: new Date(dateString(4, 10, 0)),
+    endTime: new Date(dateString(4, 11, 0)),
+    clientId: "3958dc9e-787f-4377-85e9-fec4b6a6442a" // Emily Chen
+  },
+  {
+    id: "a6a9f736-42b9-40bb-aa38-e876952b182f",
+    startTime: new Date(dateString(4, 14, 30)),
+    endTime: new Date(dateString(4, 15, 30)),
+    clientId: "50ca3e18-62cd-11ee-8c99-0242ac120002" // Jamal Washington
+  },
+  {
+    id: "6651ca4c-897e-419e-81f4-90a1fea49ea8",
+    startTime: new Date(dateString(4, 16, 0)),
+    endTime: new Date(dateString(4, 17, 0)),
+    clientId: "d6e15727-9fe1-4961-8c5b-ea44a9bd81aa" // Taylor Nguyen
+  },
+  {
+    id: "44214267-3788-4e71-b09e-08b66c4de404",
+    startTime: new Date(dateString(5, 9, 0)),
+    endTime: new Date(dateString(5, 10, 0)),
+    clientId: "3958dc9e-737f-4377-85e9-fec4b6a6442a" // Alice Smith
+  } 
 ];
 
 module.exports = {
   providers,
   clients,
-  addresses
+  addresses,
+  appointments
 };
