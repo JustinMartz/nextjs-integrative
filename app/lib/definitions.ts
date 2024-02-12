@@ -47,3 +47,10 @@ export type ClientField = {
     lastName: string;
     active: boolean;
 }
+
+export type Appointment = {
+    id: string;
+    startTime: Date;
+    endTime: Date;
+    clientId: string;
+}
