@@ -36,7 +36,7 @@ export async function fetchUpcomingSessions() {
       FROM appointment
       JOIN
         client ON appointment.client_id = client.id
-      WHERE start_time >= NOW()
+      WHERE start_time > current_date
       ORDER BY appointment.start_time ASC
       LIMIT 5`;
 
@@ -82,9 +82,25 @@ export async function fetchUpcomingSessions() {
       timeDifferenceString += `In ${days}` + (days == 1 ? ' day': ' days');
     }
 
-    if (hours !== 0 && days === 0 && !tomorrow) {
-      timeDifferenceString += `In ${hours}` + (hours == 1 ? ' hour': ' hours');
+    // currentTime 14:08
+    if (hours !== 0 && days === 0 && currentTime.getMinutes() < 55) {
+      timeDifferenceString += `In ${hours}` + (hours == 1 ? ' hour': ' hours') + `, ${minutes}` + 
+      (minutes == 1 ? ' minute': ' minutes');
     }
+
+    // currentTime 14:55
+    if (hours !== 0 && days === 0 && currentTime.getMinutes() >= 55) {
+      timeDifferenceString += `In about ${hours}` + (hours == 1 ? ' hour': ' hours');
+    }
+
+    // currentTime 14:00
+    if (hours !== 0 && days === 0 && minutes === 0) {
+      timeDifferenceString += `In ${hours}` + (hours == 1 ? ' hour': ' hours');  
+    }
+
+    // if (hours !== 0 && days === 0 && (currentTime.getHours() < startTimeDate.getHours())) {
+    //   timeDifferenceString += `In less than ${hours}` + (hours == 1 ? ' hour': ' hours');  
+    // }
 
     if (minutes !== 0 && days === 0 && hours === 0) {
       timeDifferenceString += `In ${minutes}` + (minutes == 1 ? ' minute': ' minutes');
