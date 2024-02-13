@@ -15,8 +15,6 @@ export default async function UpcomingSessions() {
 
         <div className="bg-white px-6">
           {upcomingSessions.map((session, i) => {
-            console.log('********************');
-            console.log(upcomingSessions);
             return (
               <div
                 key={session.id}

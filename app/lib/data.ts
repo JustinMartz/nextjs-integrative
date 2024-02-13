@@ -30,7 +30,6 @@ export async function fetchCustomers() {
 export async function fetchUpcomingSessions() {
   noStore();
   try {
-    console.log("---------- calling db -------------");
     const data = await sql<UpcomingSessionRaw>`
       SELECT appointment.id, start_time, end_time, 
         client.first_name || ' ' || client.last_name AS client_name 
