@@ -209,6 +209,42 @@ function dateString(dayIncrement, hour, minutes) {
 
 const appointments = [
   {
+    id: "5728c61e-733f-4a93-bbd4-87e23f46b35c",
+    startTime: new Date(dateString(-1, 11, 0)),
+    endTime: new Date(dateString(-1, 12, 0)),
+    clientId: "3958dc9e-737f-4377-85e9-fec4b6a6442a" // Alice Smith prev. appt.
+  },
+  {
+    id: "6f9ead6d-693f-4ca3-8850-b7cbdc6506b0",
+    startTime: new Date(dateString(-1, 13, 30)),
+    endTime: new Date(dateString(-1, 14, 30)),
+    clientId: "50ca3e18-62cd-11ee-8c99-0242ac120002" // Jamal Washington prev. appt.
+  },
+  {
+    id: "e77f3b66-e25f-4f73-a271-83e184ec17d1",
+    startTime: new Date(dateString(-2, 9, 0)),
+    endTime: new Date(dateString(-2, 10, 0)),
+    clientId: "d6e15727-9fe1-4961-8c5b-ea44a9bd81aa" // Taylor Nguyen prev. appt.
+  },
+  {
+    id: "7bd64e54-c19c-4ff9-8428-3d0788064518",
+    startTime: new Date(dateString(-2, 10, 30)),
+    endTime: new Date(dateString(-2, 11, 30)),
+    clientId: "CC27C14A-0ACF-4F4A-A6C9-D45682C144B9" // Al Dente prev. appt.
+  },
+  {
+    id: "ab1d91f6-8e16-4e70-9b00-cff775fb95f3",
+    startTime: new Date(dateString(-4, 2, 0)),
+    endTime: new Date(dateString(-4, 3, 30)),
+    clientId: "126eed9c-c90c-4ef6-a4a8-fcf7408d3c66" // Sarah Brown prev. appt.
+  },
+  {
+    id: "18b86055-9b27-41a1-b35c-9de45e2b4d75",
+    startTime: new Date(dateString(0, 18, 0)),
+    endTime: new Date(dateString(0, 19, 0)),
+    clientId: "3958dc9e-787f-4377-85e9-fec4b6a6442a" // Emily Chen day-of appt.
+  },
+  {
     id: "ac7bba72-3286-4ca1-a440-4ec69748a3b6",
     startTime: new Date(dateString(1, 9, 0)),
     endTime: new Date(dateString(1, 10, 0)),
