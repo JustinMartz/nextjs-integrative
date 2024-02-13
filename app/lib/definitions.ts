@@ -54,3 +54,17 @@ export type Appointment = {
     endTime: Date;
     clientId: string;
 }
+
+export type UpcomingSessionRaw = {
+    id: string;
+    start_time: string;
+    end_time: string;
+    client_name: string;
+};
+
+export type UpcomingSession = {
+    id: string;
+    time: string;
+    time_difference: string;
+    client_name: string;
+}
