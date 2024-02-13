@@ -68,3 +68,9 @@ export type UpcomingSession = {
     time_difference: string;
     client_name: string;
 }
+
+export type RecentClientRaw = {
+    id: string;
+    client_name: string;
+    start_time: string
+}

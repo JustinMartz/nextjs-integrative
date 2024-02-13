@@ -4,6 +4,7 @@ import {
   ClientField,
   Appointment,
   UpcomingSessionRaw,
+  RecentClientRaw,
 } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -83,8 +84,8 @@ export async function fetchUpcomingSessions() {
     }
 
     // currentTime 14:08
-    if (hours !== 0 && days === 0 && currentTime.getMinutes() < 55) {
-      timeDifferenceString += `In ${hours}` + (hours == 1 ? ' hour': ' hours') + `, ${minutes}` + 
+    if (hours !== 0 && days === 0 && (currentTime.getMinutes() < 55 && currentTime.getMinutes() > 0)) {
+      timeDifferenceString += `In ${hours}` + (hours == 1 ? ' hour': ' hours') + `, ${minutes + 1}` + 
       (minutes == 1 ? ' minute': ' minutes');
     }
 
@@ -94,7 +95,7 @@ export async function fetchUpcomingSessions() {
     }
 
     // currentTime 14:00
-    if (hours !== 0 && days === 0 && minutes === 0) {
+    if (hours !== 0 && days === 0 && currentTime.getMinutes() === 0) {
       timeDifferenceString += `In ${hours}` + (hours == 1 ? ' hour': ' hours');  
     }
 
@@ -108,5 +109,32 @@ export async function fetchUpcomingSessions() {
   
     return timeDifferenceString.trim();
   }
-  
+}
+
+export async function fetchRecentClients() {
+  noStore();
+  try {
+    const data = await sql<RecentClientRaw>`
+    SELECT DISTINCT client.id, client.first_name || ' ' || client.last_name AS client_name, appointment.start_time
+    FROM client
+    JOIN appointment ON client.id = appointment.client_id
+    WHERE start_time < current_date
+    ORDER BY appointment.start_time DESC
+    LIMIT 5`;
+
+    const recentClients = data.rows.map(recentClient => ({
+      ...recentClient,
+      id: recentClient.id,
+      client_name: recentClient.client_name,
+      last_seen: new Intl.DateTimeFormat("en-US", {
+        dateStyle: "full"
+      }).format(new Date(recentClient.start_time)),
+
+    }));
+
+    return recentClients;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch recent clients.");
+  } 
 }
