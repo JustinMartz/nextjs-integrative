@@ -49,7 +49,7 @@ const clients = [
   {
     id: "50ca3e18-62cd-11ee-8c99-0242ac120002",
     firstName: "Jamal",
-    lastName: "Jamal Washington",
+    lastName: "Washington",
     email: "jwash@example.com",
     addressId: "5a121d61-048d-4d00-9700-d93e6b89d076",
     phone: "303-455-1656",
@@ -200,12 +200,11 @@ const addresses = [
   }
 ];
 
-
 function dateString(dayIncrement, hour, minutes) {
   const currentDate = new Date();
-  currentDate.setUTCHours(hour, minutes, 0, 0); // Set the hour and minute in UTC
-  currentDate.setUTCDate(currentDate.getUTCDate() + dayIncrement); // Increment the date
-  return currentDate.toISOString().slice(0, -1); // Return the ISO string
+  currentDate.setUTCHours(hour, minutes, 0, 0);
+  currentDate.setUTCDate(currentDate.getUTCDate() + dayIncrement);
+  return currentDate.toISOString().slice(0, -1);
 }
 
 const appointments = [
