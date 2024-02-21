@@ -1,17 +1,18 @@
-const { db } = require('@vercel/postgres');
+const { db } = require("@vercel/postgres");
 const {
   addresses,
   clients,
   providers,
-  appointments
-} = require('../app/lib/placeholder-data.js');
-const bcrypt = require('bcrypt');
+  appointments,
+} = require("../app/lib/placeholder-data.js");
+const bcrypt = require("bcrypt");
 
 async function seedAddresses(client) {
-    try {
-        await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-        // Create the "address" table if it doesn't exist
-        const createTable = await client.sql`
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "address" table if it doesn't exist
+    const createTable = await client.sql`
           CREATE TABLE IF NOT EXISTS address (
             id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
             street VARCHAR(255) NOT NULL,
@@ -21,36 +22,37 @@ async function seedAddresses(client) {
             postal_code VARCHAR(255) NOT NULL
           );
         `;
-    
-        console.log(`Created "address" table`);
-    
-        // Insert data into the "address" table
-        const insertedAddresses = await Promise.all(
-          addresses.map(async (address) => {
-            return client.sql`
+
+    console.log(`Created "address" table`);
+
+    // Insert data into the "address" table
+    const insertedAddresses = await Promise.all(
+      addresses.map(async (address) => {
+        return client.sql`
             INSERT INTO address (id, street, unit, city, state, postal_code)
             VALUES (${address.id}, ${address.street}, ${address.unit}, ${address.city}, ${address.state}, 
                 ${address.postalCode})
             ON CONFLICT (id) DO NOTHING;
           `;
-          }),
-        );
-    
-        console.log(`Seeded ${insertedAddresses.length} addresses`);
-    
-        return {
-          createTable,
-          addresses: insertedAddresses,
-        };
-      } catch (error) {
-        console.error('Error seeding addresses:', error);
-        throw error;
-      }   
+      })
+    );
+
+    console.log(`Seeded ${insertedAddresses.length} addresses`);
+
+    return {
+      createTable,
+      addresses: insertedAddresses,
+    };
+  } catch (error) {
+    console.error("Error seeding addresses:", error);
+    throw error;
+  }
 }
 
 async function seedProviders(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
     // Create the "provider" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS provider (
@@ -76,7 +78,7 @@ async function seedProviders(client) {
             ${provider.practiceName})
         ON CONFLICT (id) DO NOTHING;
       `;
-      }),
+      })
     );
 
     console.log(`Seeded ${insertedProviders.length} providers`);
@@ -86,7 +88,7 @@ async function seedProviders(client) {
       providers: insertedProviders,
     };
   } catch (error) {
-    console.error('Error seeding providers:', error);
+    console.error("Error seeding providers:", error);
     throw error;
   }
 }
@@ -120,8 +122,8 @@ async function seedClients(dbClient) {
         VALUES (${client.id}, ${client.firstName}, ${client.lastName}, ${client.email}, ${client.addressId},
         ${client.phone}, ${client.active}, ${client.reminderPreference}, ${client.dateOfBirth})
         ON CONFLICT (id) DO NOTHING;
-      `,
-      ),
+      `
+      )
     );
 
     console.log(`Seeded ${insertedClients.length} clients`);
@@ -131,7 +133,7 @@ async function seedClients(dbClient) {
       clients: insertedClients,
     };
   } catch (error) {
-    console.error('Error seeding clients:', error);
+    console.error("Error seeding clients:", error);
     throw error;
   }
 }
@@ -159,8 +161,8 @@ async function seedAppointments(dbClient) {
         INSERT INTO appointment (id, start_time, end_time, client_id)
         VALUES (${appointment.id}, ${appointment.startTime}, ${appointment.endTime}, ${appointment.clientId})
         ON CONFLICT (id) DO NOTHING;
-      `,
-      ),
+      `
+      )
     );
 
     console.log(`Seeded ${insertedAppointments.length} appointments`);
@@ -170,7 +172,41 @@ async function seedAppointments(dbClient) {
       appointments: insertedAppointments,
     };
   } catch (error) {
-    console.error('Error seeding appointments:', error);
+    console.error("Error seeding appointments:", error);
+    throw error;
+  }
+}
+
+async function dropAllTables(dbClient) {
+  // appointment
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS appointment`;
+  } catch (error) {
+    console.error("Error dropping appointment table:", error);
+    throw error;
+  }
+
+  
+  // provider
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS provider`;
+  } catch (error) {
+    console.error("Error dropping appointment provider:", error);
+    throw error;
+  }
+  
+  // client
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS client`;
+  } catch (error) {
+    console.error('Error dropping client table:', error);
+    throw error;
+  }
+  // address
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS address`;
+  } catch (error) {
+    console.error("Error dropping address table:", error);
     throw error;
   }
 }
@@ -178,8 +214,9 @@ async function seedAppointments(dbClient) {
 async function main() {
   const dbClient = await db.connect();
 
-  await seedProviders(dbClient);
+  await dropAllTables(dbClient);
   await seedAddresses(dbClient);
+  await seedProviders(dbClient);
   await seedClients(dbClient);
   await seedAppointments(dbClient);
 
@@ -188,7 +225,7 @@ async function main() {
 
 main().catch((err) => {
   console.error(
-    'An error occurred while attempting to seed the database:',
-    err,
+    "An error occurred while attempting to seed the database:",
+    err
   );
 });
