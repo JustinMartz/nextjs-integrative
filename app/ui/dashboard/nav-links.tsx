@@ -4,7 +4,8 @@ import {
   UserGroupIcon,
   HomeIcon,
   CalendarDaysIcon,
-  BanknotesIcon
+  BanknotesIcon,
+  FaceFrownIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -16,7 +17,8 @@ const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   { name: 'Clients', href: '/dashboard/clients', icon: UserGroupIcon,},
   { name: 'Scheduling', href: '/dashboard/scheduling', icon: CalendarDaysIcon },
-  { name: 'Billing', href: '/dashboard/billing', icon: BanknotesIcon}
+  { name: 'Billing', href: '/dashboard/billing', icon: BanknotesIcon},
+  { name: 'Sessions', href: '/dashboard/sessions', icon: FaceFrownIcon}
 ];
 
 export default function NavLinks() {

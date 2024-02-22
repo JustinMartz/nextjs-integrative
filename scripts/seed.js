@@ -6,7 +6,7 @@ const {
   appointments,
   sessions,
   notes,
-  invoices
+  invoices,
 } = require("../app/lib/placeholder-data.js");
 const bcrypt = require("bcrypt");
 
@@ -149,8 +149,8 @@ async function seedAppointments(dbClient) {
     const createTable = await dbClient.sql`
       CREATE TABLE IF NOT EXISTS appointment (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        start_time TIMESTAMP  NOT NULL,
-        end_time TIMESTAMP NOT NULL,
+        start_time TIMESTAMP WITH TIME ZONE NOT NULL,
+        end_time TIMESTAMP WITH TIME ZONE NOT NULL,
         client_id UUID REFERENCES client(id) NOT NULL
       );
     `;
@@ -305,6 +305,22 @@ async function seedInvoices(dbClient) {
 }
 
 async function dropAllTables(dbClient) {
+  // note
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS note`;
+  } catch (error) {
+    console.error("Error dropping note table:", error);
+    throw error;
+  }
+
+  // invoice
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS invoice`;
+  } catch (error) {
+    console.error("Error dropping invoice table:", error);
+    throw error;
+  }
+
   // client_session
   try {
     await dbClient.sql`DROP TABLE IF EXISTS client_session`;
@@ -321,19 +337,19 @@ async function dropAllTables(dbClient) {
     throw error;
   }
 
-  // provider
-  try {
-    await dbClient.sql`DROP TABLE IF EXISTS provider`;
-  } catch (error) {
-    console.error("Error dropping appointment provider:", error);
-    throw error;
-  }
-
   // client
   try {
     await dbClient.sql`DROP TABLE IF EXISTS client`;
   } catch (error) {
     console.error("Error dropping client table:", error);
+    throw error;
+  }
+
+  // provider
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS provider`;
+  } catch (error) {
+    console.error("Error dropping appointment provider:", error);
     throw error;
   }
 
@@ -349,7 +365,7 @@ async function dropAllTables(dbClient) {
 async function main() {
   const dbClient = await db.connect();
 
-  // await dropAllTables(dbClient);
+  await dropAllTables(dbClient);
   await seedAddresses(dbClient);
   await seedProviders(dbClient);
   await seedClients(dbClient);

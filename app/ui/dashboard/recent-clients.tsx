@@ -2,6 +2,7 @@ import { fetchRecentClients } from "@/app/lib/data";
 import { dmSerifDisplay } from "../fonts";
 import clsx from "clsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import NoteStatus from "../sessions/status";
 
 export default async function RecentClients() {
     const recentClients = await fetchRecentClients();
@@ -38,7 +39,7 @@ export default async function RecentClients() {
                     <p
                       className={`${dmSerifDisplay.className} truncate text-sm font-medium md:text-base`}
                     >
-                      NOTES
+                    <NoteStatus status={recentClient.has_notes} />
                     </p>
                   </div>
                 );

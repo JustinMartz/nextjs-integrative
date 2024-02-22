@@ -72,7 +72,8 @@ export type UpcomingSession = {
 export type RecentClientRaw = {
     id: string;
     client_name: string;
-    start_time: string
+    start_time: string;
+    has_notes: string;
 }
 
 export type Session = {
