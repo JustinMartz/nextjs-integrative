@@ -306,9 +306,129 @@ const appointments = [
   } 
 ];
 
+const sessions = [
+  {
+    id: "7ecd932a-0af4-4180-aab3-370a25efb209",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "50ca3e18-62cd-11ee-8c99-0242ac120002", // Jamal Washington
+    appointment_id: "6f9ead6d-693f-4ca3-8850-b7cbdc6506b0",
+    location_id: "Remote",
+    rate: 120
+  },
+  {
+    id: "9ceaa46b-dfb0-47e6-9ba8-3b1f8ef9880e",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "3958dc9e-737f-4377-85e9-fec4b6a6442a", // Alice Smith
+    appointment_id: "5728c61e-733f-4a93-bbd4-87e23f46b35c",
+    location_id: "Golden Office",
+    rate: 140
+  },
+  {
+    id: "3eb58d01-58d9-42c8-b922-b3be81af81d6",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "CC27C14A-0ACF-4F4A-A6C9-D45682C144B9", // Al Dente
+    appointment_id: "7bd64e54-c19c-4ff9-8428-3d0788064518",
+    location_id: "Golden Office",
+    rate: 140
+  },
+  {
+    id: "40e9c905-af28-4f59-b5db-dd524d5a1823",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "d6e15727-9fe1-4961-8c5b-ea44a9bd81aa", // Taylor Nguyen
+    appointment_id: "e77f3b66-e25f-4f73-a271-83e184ec17d1",
+    location_id: "Remote",
+    rate: 120
+  },
+  {
+    id: "ea7f80a9-6522-48d4-902a-fad2872431f2",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "126eed9c-c90c-4ef6-a4a8-fcf7408d3c66", // Sarah Brown
+    appointment_id: "ab1d91f6-8e16-4e70-9b00-cff775fb95f3",
+    location_id: "Lakewood Office",
+    rate: 140
+  }
+];
+
+const notes = [
+  {
+    id: "c8bdbde8-6a93-4212-9329-9aaeee1699fc",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "3958dc9e-737f-4377-85e9-fec4b6a6442a", // Alice Smith
+    session_id: "9ceaa46b-dfb0-47e6-9ba8-3b1f8ef9880e",
+    note_text: "Client presented with evident signs of distress during today's session, which appears rooted in their childhood trauma. Their demeanor reflected a combination of agitation and withdrawal, suggesting deep-seated emotional turmoil. The client displayed difficulty in articulating their feelings, often resorting to non-verbal cues to express their distress. We explored the client's past experiences with sensitivity, acknowledging the significance of their childhood trauma. Through gentle probing, the client gradually opened up about specific memories and triggers, shedding light on the pervasive impact of their early adverse experiences. It became apparent that unresolved emotions from their past continue to influence their present behavior and relationships. Together, we identified coping strategies to manage distressing symptoms and initiate the process of healing. Moving forward, our focus will be on fostering a safe therapeutic environment to facilitate further exploration and processing of the client's trauma history."
+  },
+  {
+    id: "24f0b275-57b4-4460-b38a-989df2f6b7f9",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "CC27C14A-0ACF-4F4A-A6C9-D45682C144B9", // Al Dente
+    session_id: "3eb58d01-58d9-42c8-b922-b3be81af81d6",
+    note_text: "During today's session, the client shared poignant insights into their experiences growing up with a narcissistic father. Their narrative revealed the profound emotional toll inflicted by their father's narcissistic tendencies, characterized by a pattern of invalidation, manipulation, and emotional neglect. The client expressed feelings of inadequacy and self-doubt stemming from their father's constant need for admiration and lack of genuine empathy. We explored the client's coping mechanisms developed in response to these dynamics, including a tendency to prioritize others' needs over their own and a persistent fear of failure or rejection. Through empathetic listening and validation, the client began to recognize the impact of their father's behavior on their self-esteem and interpersonal relationships. Moving forward, our therapeutic journey will focus on fostering self-compassion, boundary-setting, and reclaiming autonomy from the shadow of their father's narcissism."
+  },
+  {
+    id: "4d4e89d7-9b44-4155-9e8b-f497d6553a03",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "d6e15727-9fe1-4961-8c5b-ea44a9bd81aa", // Taylor Nguyen
+    session_id: "40e9c905-af28-4f59-b5db-dd524d5a1823",
+    note_text: "Today's session provided a space for the client to navigate the complex emotions surrounding her divorce. She presented with a mix of sadness, anger, and uncertainty, reflecting the multifaceted nature of this life transition. The client expressed a profound sense of loss for the future she had envisioned with her partner, as well as the dissolution of the shared dreams and commitments they had built together. We explored her grieving process, acknowledging the stages of denial, anger, bargaining, depression, and acceptance. Through empathetic listening and validation, the client began to confront the practical challenges of the divorce process, such as legal proceedings, co-parenting arrangements, and financial adjustments. Together, we identified coping strategies to manage overwhelming emotions and foster resilience during this period of upheaval. Our therapeutic journey will continue to focus on supporting the client as she navigates the complexities of divorce and embarks on a journey of self-discovery and healing."
+  },
+  {
+    id: "2415579c-3986-4cd7-af75-5acb95bb7921",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "126eed9c-c90c-4ef6-a4a8-fcf7408d3c66", // Sarah Brown
+    session_id: "ea7f80a9-6522-48d4-902a-fad2872431f2",
+    note_text: "Today's session provided a supportive environment for the client to explore the challenges of living with bipolar disorder. She presented with a range of emotions and experiences, reflecting the fluctuations inherent in this condition. The client expressed feelings of frustration, despair, and confusion as she grappled with the unpredictable nature of her mood swings. We delved into her experiences of manic and depressive episodes, acknowledging the impact on her daily functioning, relationships, and sense of self. Through psychoeducation, the client gained insight into the symptoms and triggers of bipolar disorder, empowering her to identify early warning signs and implement coping strategies. Together, we developed a personalized wellness plan encompassing medication management, therapy, self-care practices, and social support networks. Our therapeutic journey will continue to focus on building resilience, enhancing emotional regulation skills, and fostering a sense of empowerment in managing her bipolar disorder."
+  }
+];
+
+const invoices = [
+  {
+    id: "0fbf93ed-19e0-4910-8df3-b3f5931c5bb6",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "50ca3e18-62cd-11ee-8c99-0242ac120002", // Jamal Washington
+    session_id: "7ecd932a-0af4-4180-aab3-370a25efb209",
+    total: 120,
+    status: 'paid'
+  },
+  {
+    id: "9fa25387-9a06-465c-b7e6-e987da1aa6f0",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "3958dc9e-737f-4377-85e9-fec4b6a6442a", // Alice Smith
+    session_id: "9ceaa46b-dfb0-47e6-9ba8-3b1f8ef9880e",
+    total: 140,
+    status: 'pending'
+  },
+  {
+    id: "943f7ae2-824c-4ab9-b945-72eb2908d202",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "CC27C14A-0ACF-4F4A-A6C9-D45682C144B9", // Al Dente
+    session_id: "3eb58d01-58d9-42c8-b922-b3be81af81d6",
+    total: 140,
+    status: 'paid'
+  },
+  {
+    id: "a9bb5ed8-3ecb-435a-bc35-e81bc96cda0d",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "d6e15727-9fe1-4961-8c5b-ea44a9bd81aa", // Taylor Nguyen
+    session_id: "40e9c905-af28-4f59-b5db-dd524d5a1823",
+    total: 120,
+    status: 'paid'
+  },
+  {
+    id: "96ed85b8-201c-4f2c-85d6-491ebe77d153",
+    provider_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    client_id: "126eed9c-c90c-4ef6-a4a8-fcf7408d3c66", // Sarah Brown
+    session_id: "ea7f80a9-6522-48d4-902a-fad2872431f2",
+    total: 210,
+    status: 'paid'
+  }
+]
+
 module.exports = {
   providers,
   clients,
   addresses,
-  appointments
+  appointments,
+  sessions,
+  notes,
+  invoices
 };

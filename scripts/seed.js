@@ -4,6 +4,9 @@ const {
   clients,
   providers,
   appointments,
+  sessions,
+  notes,
+  invoices
 } = require("../app/lib/placeholder-data.js");
 const bcrypt = require("bcrypt");
 
@@ -177,7 +180,139 @@ async function seedAppointments(dbClient) {
   }
 }
 
+async function seedSessions(dbClient) {
+  try {
+    await dbClient.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "client_session" table if it doesn't exist
+    const createTable = await dbClient.sql`
+      CREATE TABLE IF NOT EXISTS client_session (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        provider_id UUID REFERENCES provider(id) NOT NULL,
+        client_id UUID REFERENCES client(id) NOT NULL,
+        appointment_id UUID REFERENCES appointment(id) NOT NULL,
+        location_id TEXT,
+        rate INTEGER
+      );
+    `;
+
+    console.log(`Created "client_session" table`);
+
+    // Insert data into the "client_session" table
+    const insertedSessions = await Promise.all(
+      sessions.map(
+        (session) => dbClient.sql`
+        INSERT INTO client_session (id, provider_id, client_id, appointment_id, location_id, rate)
+        VALUES (${session.id}, ${session.provider_id}, ${session.client_id}, ${session.appointment_id},
+          ${session.location_id}, ${session.rate})
+        ON CONFLICT (id) DO NOTHING;
+      `
+      )
+    );
+
+    console.log(`Seeded ${insertedSessions.length} sessions`);
+
+    return {
+      createTable,
+      sessions: insertedSessions,
+    };
+  } catch (error) {
+    console.error("Error seeding sessions:", error);
+    throw error;
+  }
+}
+
+async function seedNotes(dbClient) {
+  try {
+    await dbClient.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "note" table if it doesn't exist
+    const createTable = await dbClient.sql`
+      CREATE TABLE IF NOT EXISTS note (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        provider_id UUID REFERENCES provider(id) NOT NULL,
+        client_id UUID REFERENCES client(id) NOT NULL,
+        session_id UUID REFERENCES client_session(id) NOT NULL,
+        note_text TEXT
+      );
+    `;
+
+    console.log(`Created "note" table`);
+
+    // Insert data into the "note" table
+    const insertedNotes = await Promise.all(
+      notes.map(
+        (note) => dbClient.sql`
+        INSERT INTO note (id, provider_id, client_id, session_id, note_text)
+        VALUES (${note.id}, ${note.provider_id}, ${note.client_id}, ${note.session_id}, ${note.note_text})
+        ON CONFLICT (id) DO NOTHING;
+      `
+      )
+    );
+
+    console.log(`Seeded ${insertedNotes.length} notes`);
+
+    return {
+      createTable,
+      notes: insertedNotes,
+    };
+  } catch (error) {
+    console.error("Error seeding notes:", error);
+    throw error;
+  }
+}
+
+async function seedInvoices(dbClient) {
+  try {
+    await dbClient.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "invoice" table if it doesn't exist
+    const createTable = await dbClient.sql`
+      CREATE TABLE IF NOT EXISTS invoice (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        provider_id UUID REFERENCES provider(id) NOT NULL,
+        client_id UUID REFERENCES client(id) NOT NULL,
+        session_id UUID REFERENCES client_session(id) NOT NULL,
+        total INTEGER NOT NULL,
+        status VARCHAR(255) NOT NULL
+      );
+    `;
+
+    console.log(`Created "invoice" table`);
+
+    // Insert data into the "invoice" table
+    const insertedInvoices = await Promise.all(
+      invoices.map(
+        (invoice) => dbClient.sql`
+        INSERT INTO invoice (id, provider_id, client_id, session_id, total, status)
+        VALUES (${invoice.id}, ${invoice.provider_id}, ${invoice.client_id}, ${invoice.session_id}, ${invoice.total}, 
+          ${invoice.status})
+        ON CONFLICT (id) DO NOTHING;
+      `
+      )
+    );
+
+    console.log(`Seeded ${insertedInvoices.length} invoices`);
+
+    return {
+      createTable,
+      invoices: insertedInvoices,
+    };
+  } catch (error) {
+    console.error("Error seeding notes:", error);
+    throw error;
+  }
+}
+
 async function dropAllTables(dbClient) {
+  // client_session
+  try {
+    await dbClient.sql`DROP TABLE IF EXISTS client_session`;
+  } catch (error) {
+    console.error("Error dropping client_session table:", error);
+    throw error;
+  }
+
   // appointment
   try {
     await dbClient.sql`DROP TABLE IF EXISTS appointment`;
@@ -186,7 +321,6 @@ async function dropAllTables(dbClient) {
     throw error;
   }
 
-  
   // provider
   try {
     await dbClient.sql`DROP TABLE IF EXISTS provider`;
@@ -194,14 +328,15 @@ async function dropAllTables(dbClient) {
     console.error("Error dropping appointment provider:", error);
     throw error;
   }
-  
+
   // client
   try {
     await dbClient.sql`DROP TABLE IF EXISTS client`;
   } catch (error) {
-    console.error('Error dropping client table:', error);
+    console.error("Error dropping client table:", error);
     throw error;
   }
+
   // address
   try {
     await dbClient.sql`DROP TABLE IF EXISTS address`;
@@ -214,11 +349,14 @@ async function dropAllTables(dbClient) {
 async function main() {
   const dbClient = await db.connect();
 
-  await dropAllTables(dbClient);
+  // await dropAllTables(dbClient);
   await seedAddresses(dbClient);
   await seedProviders(dbClient);
   await seedClients(dbClient);
   await seedAppointments(dbClient);
+  await seedSessions(dbClient);
+  await seedNotes(dbClient);
+  await seedInvoices(dbClient);
 
   await dbClient.end();
 }

@@ -74,3 +74,29 @@ export type RecentClientRaw = {
     client_name: string;
     start_time: string
 }
+
+export type Session = {
+    id: string;
+    provider_id: string;
+    client_id: string;
+    appointment_id: string;
+    location_id: string; // TODO: change to OfficeLocation object
+    rate: number;
+}
+
+export type Note = {
+    id: string;
+    provider_id: string;
+    client_id: string;
+    session_id: string;
+    note_text: string;
+}
+
+export type Invoice = {
+    id: string;
+    provider_id: string;
+    client_id: string;
+    session_id: string;
+    total: number;
+    status: 'pending' | 'paid';
+}
