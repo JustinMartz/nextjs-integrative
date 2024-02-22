@@ -37,7 +37,7 @@ export async function fetchUpcomingSessions() {
       FROM appointment
       JOIN
         client ON appointment.client_id = client.id
-      WHERE start_time > current_date
+      WHERE start_time > CURRENT_TIMESTAMP
       ORDER BY appointment.start_time ASC
       LIMIT 5`;
 
