@@ -2,11 +2,33 @@
 
 import { dmSerifDisplay } from "@/app/ui/fonts";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export default function FirstNameSortToggle() {
+  const [sortAsc, setSortAsc] = useState(true);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
   const toggleFirstNameSort = () => {
-    alert("Sorting by first name")
+    setSortAsc(!sortAsc);
+    const params = new URLSearchParams(searchParams);
+    const currentSortOrder = params.get('sortFirstName');
+
+    if (sortAsc) {
+      params.set('sortFirstName', 'ascending');
+    } else {
+      params.set('sortFirstName', 'descending');
+    }
+  
+    if (!currentSortOrder) {
+      params.set('sortFirstName', 'ascending');
+    }
+  
+    replace(`${pathname}?${params.toString()}`);
   };
+  
 
   return (
     <div className="flex items-center">

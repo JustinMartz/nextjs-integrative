@@ -13,16 +13,22 @@ export default async function Page({
 }: {
   searchParams?: {
     hideInactives?: string;
+    sortFirstName?: string;
+    sortLastName?: string;
+    sortSession?: string;
     page?: string;
   };
 }) {
   const hideInactives = searchParams?.hideInactives || "";
+  const sortFirstName = searchParams?.sortFirstName || "";
+  const sortLastName = searchParams?.sortLastName || "";
+  const sortSession = searchParams?.sortSession || "";
   const currentPage = Number(searchParams?.page) || 1;
 
   return (
     <main className="h-full">
       <h1 className={`${dmSerifDisplay.className} mb-4 text-xl md:text-2xl`}>
-        <Link href="/dashboard/clients">Clients</Link>
+        <Link href='/dashboard/clients'>Clients</Link>
         
       </h1>
       <div className="flex w-full rounded-xl bg-gray-50 p-4 mb-4">
@@ -47,7 +53,8 @@ export default async function Page({
               </th>
             </tr>
           </thead>
-          <DisplayClients hideInactives={hideInactives} />
+          <DisplayClients hideInactives={hideInactives} sortFirstName={sortFirstName} sortLastName={sortLastName}
+            sortSession={sortSession} />
         </table>
       </div>
     </main>
