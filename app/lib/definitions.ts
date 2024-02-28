@@ -43,9 +43,10 @@ export type Address = {
 
 export type ClientField = {
     id: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     active: boolean;
+    start_time: string;
 }
 
 export type Appointment = {
