@@ -9,19 +9,78 @@ import {
 import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
 
-export async function fetchCustomers() {
+export async function fetchAllActiveClients() {
   try {
     const data = await sql<ClientField>`
-        SELECT
-          id,
-          first_name,
-          last_name,
-          active
-        FROM client
-        ORDER BY last_name ASC
-      `;
+    SELECT 
+    client.id,
+    client.first_name, 
+    client.last_name,
+    client.active, 
+    appointment.start_time
+FROM 
+    client
+LEFT JOIN 
+    client_session ON client_session.client_id = client.id
+LEFT JOIN 
+    appointment ON appointment.id = client_session.appointment_id
+    WHERE client.active = true
+ORDER BY client.last_name ASC;`;
 
-    const clients = data.rows;
+    const clients = data.rows.map((client) => ({
+      ...client,
+      id: client.id,
+      firstName: client.first_name,
+      lastName: client.last_name,
+      active: client.active,
+      start_time: client.start_time
+        ? new Date(client.start_time).toLocaleString("en-US", {
+            dateStyle: "full",
+          })
+        : "None recorded yet",
+    }));
+
+    // const clients = data.rows;
+    // console.log(clients);
+    return clients;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all clients.");
+  }
+}
+
+export async function fetchAllClients() {
+  try {
+    const data = await sql<ClientField>`
+    SELECT 
+    client.id,
+    client.first_name, 
+    client.last_name,
+    client.active, 
+    appointment.start_time
+FROM 
+    client
+LEFT JOIN 
+    client_session ON client_session.client_id = client.id
+LEFT JOIN 
+    appointment ON appointment.id = client_session.appointment_id
+ORDER BY client.last_name ASC;`;
+
+    const clients = data.rows.map((client) => ({
+      ...client,
+      id: client.id,
+      firstName: client.first_name,
+      lastName: client.last_name,
+      active: client.active,
+      start_time: client.start_time
+        ? new Date(client.start_time).toLocaleString("en-US", {
+            dateStyle: "full",
+          })
+        : "None recorded yet",
+    }));
+
+    // const clients = data.rows;
+    // console.log(clients);
     return clients;
   } catch (err) {
     console.error("Database Error:", err);
@@ -49,7 +108,9 @@ export async function fetchCardData() {
     ]);
 
     const ytdEarnings = formatCurrency(parseFloat(data[0].rows[0].sum ?? "0"));
-    const totalPendingInvoices = formatCurrency(parseFloat(data[1].rows[0].sum ?? "0"));
+    const totalPendingInvoices = formatCurrency(
+      parseFloat(data[1].rows[0].sum ?? "0")
+    );
     const sessionHours = Number(data[2].rows[0].total_elapsed_hours ?? "0");
     const numberOfClients = Number(data[3].rows[0].count ?? "0");
 
@@ -153,7 +214,12 @@ export async function fetchUpcomingSessions() {
     //   timeDifferenceString += `In less than ${hours}` + (hours == 1 ? ' hour': ' hours');
     // }
 
-    if (minutes !== 0 && days === 0 && hours === 0) {
+    if (
+      minutes !== 0 &&
+      days === 0 &&
+      hours === 0 &&
+      currentTime.getMinutes() > 0
+    ) {
       timeDifferenceString +=
         `In ${minutes}` + (minutes == 1 ? " minute" : " minutes");
     }
@@ -165,14 +231,6 @@ export async function fetchUpcomingSessions() {
 export async function fetchRecentClients() {
   noStore();
   try {
-    // const data = await sql<RecentClientRaw>`
-    // SELECT DISTINCT client.id, client.first_name || ' ' || client.last_name AS client_name, appointment.start_time
-    // FROM client
-    // JOIN appointment ON client.id = appointment.client_id
-    // WHERE start_time < current_date
-    // ORDER BY appointment.start_time DESC
-    // LIMIT 5`;
-
     const data = await sql<RecentClientRaw>`
     SELECT 
     DISTINCT client.id, client.first_name || ' ' || client.last_name AS client_name, appointment.start_time,
