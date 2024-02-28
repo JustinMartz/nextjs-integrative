@@ -7,7 +7,7 @@ export default function ClientSearch() {
             Search
           </label>
           <input
-            className="peer block w-1/2 rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+            className="peer w-3/4 block rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
             placeholder='Search for client'
             
           />
