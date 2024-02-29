@@ -9,6 +9,46 @@ import {
 import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
 
+export async function fetchFilteredClients(query: string) {
+  noStore();
+  try {
+    const data = await sql<ClientField>`
+    SELECT 
+    client.id,
+    client.first_name, 
+    client.last_name,
+    client.active, 
+    appointment.start_time
+FROM 
+    client
+LEFT JOIN 
+    client_session ON client_session.client_id = client.id
+LEFT JOIN 
+    appointment ON appointment.id = client_session.appointment_id
+WHERE client.first_name ILIKE ${`%${query}%`} OR
+    client.last_name ILIKE ${`%${query}%`}
+ORDER BY client.last_name ASC`;
+
+    const clients = data.rows.map((client) => ({
+      ...client,
+      id: client.id,
+      firstName: client.first_name,
+      lastName: client.last_name,
+      active: client.active,
+      start_time: client.start_time
+        ? new Date(client.start_time).toLocaleString("en-US", {
+            dateStyle: "full",
+          })
+        : "None recorded yet",
+    }));
+
+    return clients;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all clients.");
+  }
+}
+
 export async function fetchAllClients() {
   noStore();
   try {
@@ -90,7 +130,7 @@ export async function fetchUpcomingSessions() {
   try {
     console.log('Fetching revenue data...');
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    
+
     const data = await sql<UpcomingSessionRaw>`
       SELECT appointment.id, start_time, end_time, 
         client.first_name || ' ' || client.last_name AS client_name 

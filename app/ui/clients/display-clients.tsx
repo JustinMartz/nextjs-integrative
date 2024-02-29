@@ -1,17 +1,19 @@
-import { fetchAllClients } from "@/app/lib/data";
+import { fetchAllClients, fetchFilteredClients } from "@/app/lib/data";
 import clsx from "clsx";
 import { ClientField } from "@/app/lib/definitions";
 
 export default async function DisplayClients({
-  hideInactives, sortFirstName, sortLastName, sortSession
+  hideInactives, sortFirstName, sortLastName, sortSession, query
 }: {
   hideInactives: string;
   sortFirstName: string;
   sortLastName: string;
   sortSession: string;
+  query: string;
 }) {
   let clients: ClientField[];
-  clients = await fetchAllClients();
+//   clients = await fetchAllClients();
+    clients = await fetchFilteredClients(query);
 
   if (sortFirstName === 'ascending') {
     clients.sort((a, b) => {

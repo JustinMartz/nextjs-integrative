@@ -17,13 +17,13 @@ export default function LastSeenSortToggle() {
     const currentSortOrder = params.get("sortSession");
 
     if (sort) {
-      params.set("sortSession", "ascending");
-    } else {
       params.set("sortSession", "descending");
+    } else {
+      params.set("sortSession", "ascending");
     }
 
     if (!currentSortOrder) {
-      params.set("sortSession", "ascending");
+      params.set("sortSession", "descending");
     }
 
     replace(`${pathname}?${params.toString()}`);
