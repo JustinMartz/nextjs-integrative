@@ -2,10 +2,31 @@
 
 import { dmSerifDisplay } from "@/app/ui/fonts";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export default function LastNameSortToggle() {
+  const [sortOrder, setSortOrder] = useState(true);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
     const toggleLastNameSort = () => {
-        alert("Sorting by last name")
+      setSortOrder(!sortOrder);
+      const params = new URLSearchParams(searchParams);
+      const currentSortOrder = params.get('sortLastName');
+  
+      if (sortOrder) {
+        params.set('sortLastName', 'descending');
+      } else {
+        params.delete('sortLastName');
+      }
+    
+      if (!currentSortOrder) {
+        params.set('sortLastName', 'descending');
+      }
+    
+      replace(`${pathname}?${params.toString()}`);
       };
 
   return (

@@ -3,11 +3,6 @@ import styles from "@/app/ui/buttons.module.css";
 import { useState } from "react";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
-export interface ToggleActiveProps {
-  hideInactive: boolean;
-  setHideInactive: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 export default function ToggleActive() {
     const [hideInactive, setHideInactive] = useState(true);
     const searchParams = useSearchParams();
@@ -36,3 +31,4 @@ export default function ToggleActive() {
         </div>
   );
 }
+

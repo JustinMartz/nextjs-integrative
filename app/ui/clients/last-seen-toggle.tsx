@@ -1,12 +1,33 @@
-'use client';
+"use client";
 
 import { dmSerifDisplay } from "@/app/ui/fonts";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 export default function LastSeenSortToggle() {
-    const toggleLastSeenSort = () => {
-        alert("Sorting by last seen")
-      };
+  const [sort, setSort] = useState(true);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const toggleLastSeenSort = () => {
+    setSort(!sort);
+    const params = new URLSearchParams(searchParams);
+    const currentSortOrder = params.get("sortSession");
+
+    if (sort) {
+      params.set("sortSession", "descending");
+    } else {
+      params.set("sortSession", "ascending");
+    }
+
+    if (!currentSortOrder) {
+      params.set("sortSession", "descending");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  };
   return (
     <div className="flex items-center">
       <h2 className={`${dmSerifDisplay.className} text-xl md:text-xl`}>

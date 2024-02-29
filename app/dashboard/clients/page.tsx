@@ -6,24 +6,33 @@ import FirstNameSortToggle from "@/app/ui/clients/firstname-toggle";
 import LastNameSortToggle from "@/app/ui/clients/lastname-toggle";
 import LastSeenSortToggle from "@/app/ui/clients/last-seen-toggle";
 import NewClientButton from "@/app/ui/clients/new-client-button";
-import Link from 'next/link';
+import Link from "next/link";
+import { DisplayClientsSkeleton } from "@/app/ui/skeletons";
+import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams?: {
     hideInactives?: string;
+    sortFirstName?: string;
+    sortLastName?: string;
+    sortSession?: string;
+    query?: string;
     page?: string;
   };
 }) {
   const hideInactives = searchParams?.hideInactives || "";
+  const sortFirstName = searchParams?.sortFirstName || "";
+  const sortLastName = searchParams?.sortLastName || "";
+  const sortSession = searchParams?.sortSession || "";
+  const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 
   return (
     <main className="h-full">
       <h1 className={`${dmSerifDisplay.className} mb-4 text-xl md:text-2xl`}>
         <Link href="/dashboard/clients">Clients</Link>
-        
       </h1>
       <div className="flex w-full rounded-xl bg-gray-50 p-4 mb-4">
         <ClientSearch />
@@ -47,7 +56,15 @@ export default async function Page({
               </th>
             </tr>
           </thead>
-          <DisplayClients hideInactives={hideInactives} />
+          <Suspense fallback={<DisplayClientsSkeleton />}>
+            <DisplayClients
+              hideInactives={hideInactives}
+              sortFirstName={sortFirstName}
+              sortLastName={sortLastName}
+              sortSession={sortSession}
+              query={query}
+            />
+          </Suspense>
         </table>
       </div>
     </main>
