@@ -1,7 +1,7 @@
-import { dmSerifDisplay } from "../ui/fonts";
-import UpcomingSessions from "../ui/dashboard/upcoming-sessions";
-import RecentClients from "../ui/dashboard/recent-clients";
-import CardWrapper from "../ui/dashboard/cards";
+import { dmSerifDisplay } from "../../ui/fonts";
+import UpcomingSessions from "../../ui/dashboard/upcoming-sessions";
+import RecentClients from "../../ui/dashboard/recent-clients";
+import CardWrapper from "../../ui/dashboard/cards";
 
 export default async function Page() {
   return (

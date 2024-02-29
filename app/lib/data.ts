@@ -10,6 +10,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
 
 export async function fetchAllClients() {
+  noStore();
   try {
     const data = await sql<ClientField>`
     SELECT 
@@ -87,6 +88,9 @@ export async function fetchCardData() {
 export async function fetchUpcomingSessions() {
   noStore();
   try {
+    console.log('Fetching revenue data...');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    
     const data = await sql<UpcomingSessionRaw>`
       SELECT appointment.id, start_time, end_time, 
         client.first_name || ' ' || client.last_name AS client_name 
@@ -190,8 +194,7 @@ export async function fetchUpcomingSessions() {
     // Convert milliseconds to days, hours, and minutes
     // const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
     const hours =
-      Math.floor((differenceInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) -
-      1;
+      Math.floor((differenceInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes =
       Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60)) + 1;
 
@@ -202,8 +205,8 @@ export async function fetchUpcomingSessions() {
     // console.log('session date: ' + startTime);
     // console.log('current date: ' + currentTime);
     // console.log('days: ' + days);
-    // console.log('hours: ' + hours);
-    // console.log('minutes: ' + minutes);
+    console.log('hours: ' + hours);
+    console.log('minutes: ' + minutes);
     if (startTime.getDay() > currentTime.getDay()) {
       // console.log(
       //   "session is " +
@@ -220,6 +223,8 @@ export async function fetchUpcomingSessions() {
       timeDifferenceString =
         `In ${hours + 1} hour${hours + 1 > 1 ? "s" : ""}` +
         `, ${minutes} minute${minutes > 1 ? "s" : ""}`;
+    } else if (hours === 0 && minutes > 1) {
+      timeDifferenceString = `In ${minutes} minute${minutes > 1 ? "s" : ""}`;      
     }
 
     return timeDifferenceString;
