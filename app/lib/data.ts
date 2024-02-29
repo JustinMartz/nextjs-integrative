@@ -128,9 +128,6 @@ export async function fetchCardData() {
 export async function fetchUpcomingSessions() {
   noStore();
   try {
-    console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
     const data = await sql<UpcomingSessionRaw>`
       SELECT appointment.id, start_time, end_time, 
         client.first_name || ' ' || client.last_name AS client_name 
