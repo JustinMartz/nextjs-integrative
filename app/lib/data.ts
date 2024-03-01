@@ -5,6 +5,7 @@ import {
   Appointment,
   UpcomingSessionRaw,
   RecentClientRaw,
+  Client,
 } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
@@ -46,6 +47,30 @@ ORDER BY client.last_name ASC`;
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch all clients.");
+  }
+}
+
+export async function fetchClientById(id: string): Promise<Client> {
+  try {
+    const data = await sql<Client>`
+      SELECT
+        client.id,
+        client.first_name,
+        client.last_name,
+        client.email,
+        client.address_id,
+        client.phone,
+        client.active,
+        client.reminder_preference,
+        client.date_of_birth
+      FROM client
+      WHERE client.id = ${id};
+    `;
+
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch client.');
   }
 }
 
