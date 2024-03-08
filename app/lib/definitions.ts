@@ -10,14 +10,14 @@ export type Provider = {
 
 export type Client = {
     id: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
-    addressId: string;
+    address_id: string;
     phone: string;
     active: boolean;
-    reminderPreference: Reminder;
-    dateOfBirth: Date;
+    reminder_preference: Reminder;
+    date_of_birth: Date;
 };
 
 export enum Privelege {

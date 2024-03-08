@@ -1,6 +1,7 @@
 import { fetchAllClients, fetchFilteredClients } from "@/app/lib/data";
 import clsx from "clsx";
 import { ClientField } from "@/app/lib/definitions";
+import Link from "next/link";
 
 export default async function DisplayClients({
   hideInactives, sortFirstName, sortLastName, sortSession, query
@@ -76,8 +77,9 @@ export default async function DisplayClients({
               "text-red-300 ": client.active === false,
             })}
           >
-            <td className="py-2">{client.first_name}</td>
-            <td className="py-2">{client.last_name}</td>
+            
+            <td className="py-2"><Link href={`/dashboard/clients/${client.id}/view`}>{client.first_name}</Link></td>
+            <td className="py-2"><Link href={`/dashboard/clients/${client.id}/view`}>{client.last_name}</Link></td>
             <td className="py-2">{client.start_time}</td>
           </tr>
         );

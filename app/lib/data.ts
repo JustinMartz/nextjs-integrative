@@ -5,6 +5,7 @@ import {
   Appointment,
   UpcomingSessionRaw,
   RecentClientRaw,
+  Client,
 } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
@@ -46,6 +47,30 @@ ORDER BY client.last_name ASC`;
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch all clients.");
+  }
+}
+
+export async function fetchClientById(id: string): Promise<Client> {
+  try {
+    const data = await sql<Client>`
+      SELECT
+        client.id,
+        client.first_name,
+        client.last_name,
+        client.email,
+        client.address_id,
+        client.phone,
+        client.active,
+        client.reminder_preference,
+        client.date_of_birth
+      FROM client
+      WHERE client.id = ${id};
+    `;
+
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch client.');
   }
 }
 
@@ -128,8 +153,8 @@ export async function fetchCardData() {
 export async function fetchUpcomingSessions() {
   noStore();
   try {
-    console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // console.log('Fetching revenue data...');
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<UpcomingSessionRaw>`
       SELECT appointment.id, start_time, end_time, 
@@ -162,68 +187,6 @@ export async function fetchUpcomingSessions() {
     throw new Error("Failed to fetch the latest sessions.");
   }
 
-  //   function calculateTimeDifference(startTime: Date) {
-  //     const currentTime = new Date();
-  //     const startTimeDate = new Date(startTime);
-  //     const differenceInMs = startTimeDate.getTime() - currentTime.getTime();
-
-  //     const days = startTimeDate.getDate() - currentTime.getDate();
-  //     const hours = Math.floor(
-  //       (differenceInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  //     );
-  //     const minutes = Math.floor(
-  //       (differenceInMs % (1000 * 60 * 60)) / (1000 * 60)
-  //     );
-
-  //     let timeDifferenceString = "";
-  //     let tomorrow = currentTime.getDate() + 1 === startTimeDate.getDate();
-
-  //     if (tomorrow) {
-  //       timeDifferenceString = "Tomorrow";
-  //     }
-
-  //     if (days !== 0 && !tomorrow) {
-  //       timeDifferenceString += `In ${days}` + (days == 1 ? " day" : " days");
-  //     }
-
-  //     // currentTime 14:08
-  //     if (
-  //       hours !== 0 &&
-  //       days === 0 &&
-  //       currentTime.getMinutes() < 55 &&
-  //       currentTime.getMinutes() > 0
-  //     ) {
-  //       timeDifferenceString +=
-  //         `In ${hours}` +
-  //         (hours == 1 ? " hour" : " hours") +
-  //         `, ${minutes + 1}` +
-  //         (minutes == 1 ? " minute" : " minutes");
-  //     }
-
-  //     // currentTime 14:55
-  //     if (hours !== 0 && days === 0 && currentTime.getMinutes() >= 55) {
-  //       timeDifferenceString +=
-  //         `In about ${hours}` + (hours == 1 ? " hour" : " hours");
-  //     }
-
-  //     // currentTime 14:00
-  //     if (hours !== 0 && days === 0 && currentTime.getMinutes() === 0) {
-  //       timeDifferenceString += `In ${hours}` + (hours == 1 ? " hour" : " hours");
-  //     }
-
-  //     if (
-  //       minutes !== 0 &&
-  //       days === 0 &&
-  //       hours === 0 &&
-  //       currentTime.getMinutes() > 0
-  //     ) {
-  //       timeDifferenceString +=
-  //         `In ${minutes}` + (minutes == 1 ? " minute" : " minutes");
-  //     }
-
-  //     return timeDifferenceString.trim();
-  //   }
-
   function calculateTimeDifference(startTime: Date) {
     const currentTime = new Date();
     const startTimeDate = new Date(startTime);
@@ -239,14 +202,14 @@ export async function fetchUpcomingSessions() {
       Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60)) + 1;
 
     let timeDifferenceString = "";
-    const days = startTime.getDay() - currentTime.getDay();
+    const days = startTime.getDate() - currentTime.getDate();
 
     // console.log('=============');
     // console.log('session date: ' + startTime);
     // console.log('current date: ' + currentTime);
     // console.log('days: ' + days);
-    console.log('hours: ' + hours);
-    console.log('minutes: ' + minutes);
+    // console.log('hours: ' + hours);
+    // console.log('minutes: ' + minutes);
     if (startTime.getDay() > currentTime.getDay()) {
       // console.log(
       //   "session is " +
@@ -259,9 +222,9 @@ export async function fetchUpcomingSessions() {
       timeDifferenceString = `In ${days} day${days > 1 ? "s" : ""}`;
     } else if (days === 1) {
       timeDifferenceString = "Tomorrow";
-    } else if (days === 0 && hours > 1) {
+    } else if (days === 0 && hours > 0) {
       timeDifferenceString =
-        `In ${hours + 1} hour${hours + 1 > 1 ? "s" : ""}` +
+        `In ${hours} hour${hours> 1 ? "s" : ""}` +
         `, ${minutes} minute${minutes > 1 ? "s" : ""}`;
     } else if (hours === 0 && minutes > 1) {
       timeDifferenceString = `In ${minutes} minute${minutes > 1 ? "s" : ""}`;      
