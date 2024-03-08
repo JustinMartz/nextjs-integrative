@@ -78,7 +78,7 @@ export default async function DisplayClients({
             })}
           >
             
-            <td className="py-2 bg-blue-100"><Link href={`/dashboard/clients/${client.id}/view`}>{client.first_name}</Link></td>
+            <td className="py-2"><Link href={`/dashboard/clients/${client.id}/view`}>{client.first_name}</Link></td>
             <td className="py-2"><Link href={`/dashboard/clients/${client.id}/view`}>{client.last_name}</Link></td>
             <td className="py-2">{client.start_time}</td>
           </tr>
