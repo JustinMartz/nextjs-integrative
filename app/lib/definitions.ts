@@ -38,7 +38,7 @@ export type Address = {
     street: string;
     city: string;
     state: string;
-    postalCode: string;
+    postal_code: string;
 };
 
 export type ClientField = {
