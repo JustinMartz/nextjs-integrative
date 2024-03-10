@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { updateClient } from "@/app/lib/actions";
 import { Address, Client } from "@/app/lib/definitions";
@@ -14,7 +14,6 @@ export default function EditClientForm({
   const [formDataChanged, setFormDataChanged] = useState(false);
   const [formClient, setFormClient] = useState(initialClient);
   const [formAddress, setFormAddress] = useState(initialAddress);
-  const [resetForm, setResetForm] = useState(false); // New state for reset flag
 
   const updateClientWithId = updateClient.bind(null, initialClient.id);
 
@@ -28,7 +27,6 @@ export default function EditClientForm({
   const dateOfBirth: string = `${year}-${month}-${day}`;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name + ' ' + e.target.value);
     const { name, value } = e.target;
     setFormClient({
       ...formClient,
@@ -40,7 +38,6 @@ export default function EditClientForm({
         [name]: value
       });
       if (name === "reminder_preference") {
-        // Update the formDataChanged state when reminder_preference is changed
         setFormDataChanged(true);
       }
   };
@@ -62,24 +59,6 @@ export default function EditClientForm({
     setFormDataChanged(formHasChanged);
   }, [formClient, formAddress, initialClient, initialAddress]);
 
-  useEffect(() => {
-    // This effect is triggered whenever formDataChanged changes
-    // It can be used to perform any actions after the form data has changed
-    console.log("Form data has changed:", formDataChanged);
-  }, [formDataChanged]);
-
-  useEffect(() => {
-    if (resetForm) {
-      // Reset the form data when resetForm is true
-      setFormClient(initialClient);
-      setFormAddress(initialAddress);
-      setFormDataChanged(false);
-      setResetForm(false); // Reset the resetForm state
-        console.log('formClient: ', formClient.first_name);
-
-    }
-  }, [resetForm, initialClient, initialAddress, formClient]);
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formDataChanged) {
@@ -90,47 +69,17 @@ export default function EditClientForm({
     }
   };
 
-//   const handleCancelClick: MouseEventHandler<HTMLButtonElement> = (event) => {
-//     console.log('is this getting called?')
-//     event.preventDefault();
-//     resetForm(); // Call your resetForm function here
-//   };
-
-//   const resetForm = () => {
-//       setFormDataChanged(false);
-//     console.log('resetForm() called');
-//     console.log('initialClient: ' + initialClient.first_name)
-//     setFormClient(initialClient);
-//     setFormAddress(initialAddress);
-//     console.log('formClient: ', formClient.first_name);
-//   };
-// const handleCancelClick = () => {
-//     // Set the resetForm state to true when Cancel button is clicked
-//     // setResetForm(true);
-//   };
-
-// const handleCancelClick = () => {
-//     Array.from(document.querySelectorAll("input")).forEach(
-//       input => (input.value = "")
-//     );
-//   };
-
 const handleCancelClick = () => {
-    // Get all input elements in the document
     const inputs = document.querySelectorAll("input");
   
-    // Iterate over each input element
     inputs.forEach(input => {
-      // Get the name attribute of the input
       const name = input.getAttribute("name");
   
       if (name === "reminder_preference") {
-        // Check if the value matches the initialClient's reminder_preference
         const checkedValue = parseInt(input.value);
         const isChecked = checkedValue === initialClient.reminder_preference;
-        input.checked = isChecked; // Set the checked attribute
+        input.checked = isChecked;
       } else {
-        // For other inputs, set the value attribute as before
         if (name && initialClient.hasOwnProperty(name)) {
           const value = name === "date_of_birth" ? dateOfBirth : (initialClient as any)[name];
           input.value = value;
@@ -141,11 +90,8 @@ const handleCancelClick = () => {
       }
     });
   
-    // Reset the form data to initial values
     setFormDataChanged(false);
   };
-  
-  
 
   return (
     <div className="flex-1 overflow-auto bg-gray-50 rounded-xl">
