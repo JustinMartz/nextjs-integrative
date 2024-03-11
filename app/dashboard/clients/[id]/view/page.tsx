@@ -1,11 +1,9 @@
 import { fetchAddressById, fetchClientById } from "@/app/lib/data";
-import { Client } from "@/app/lib/definitions";
 import EditClientForm from "@/app/ui/clients/edit-form";
 import { dmSerifDisplay } from "@/app/ui/fonts";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
-//   const client: Client = await fetchClientById(id);
   const [client, address] = await Promise.all([
     fetchClientById(id),
     fetchAddressById(id),
