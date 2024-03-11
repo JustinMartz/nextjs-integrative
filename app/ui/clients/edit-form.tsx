@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
 import { updateClient } from "@/app/lib/actions";
 import { Address, Client } from "@/app/lib/definitions";
-import { useState, useEffect, MouseEventHandler, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
+import { usePathname } from "next/navigation";
 
 export default function EditClientForm({
   client: initialClient,
@@ -14,13 +15,13 @@ export default function EditClientForm({
   const [formDataChanged, setFormDataChanged] = useState(false);
   const [formClient, setFormClient] = useState(initialClient);
   const [formAddress, setFormAddress] = useState(initialAddress);
+  const [initialClientState, setInitialClientState] = useState(initialClient);
+
+  const pathname = usePathname();
 
   const updateClientWithId = updateClient.bind(null, initialClient.id);
 
-  const month: string = String(initialClient.date_of_birth.getMonth() + 1).padStart(
-    2,
-    "0"
-  );
+  const month: string = String(initialClient.date_of_birth.getMonth() + 1).padStart(2, "0");
   const day: string = String(initialClient.date_of_birth.getDate()).padStart(2, "0");
   const year: string = String(initialClient.date_of_birth.getFullYear());
 
@@ -30,58 +31,68 @@ export default function EditClientForm({
     const { name, value } = e.target;
     setFormClient({
       ...formClient,
-      [name]: value
+      [name]: value,
     });
 
     setFormAddress({
-        ...formAddress,
-        [name]: value
-      });
-      if (name === "reminder_preference") {
-        setFormDataChanged(true);
-      }
+      ...formAddress,
+      [name]: value,
+    });
+    if (name === "reminder_preference") {
+      setFormDataChanged(true);
+    }
   };
 
   useEffect(() => {
     const formHasChanged =
-    initialClient.first_name !== formClient.first_name ||
-    initialClient.last_name !== formClient.last_name ||
-    initialClient.email !== formClient.email ||
-    initialClient.phone !== formClient.phone ||
-    initialClient.reminder_preference !== formClient.reminder_preference ||
-    initialClient.date_of_birth !== formClient.date_of_birth ||
-    initialAddress.street !== formAddress.street ||
-    initialAddress.unit !== formAddress.unit ||
-    initialAddress.city !== formAddress.city ||
-    initialAddress.state !== formAddress.state ||
-    initialAddress.postal_code !== formAddress.postal_code;
+      initialClientState.first_name !== formClient.first_name ||
+      initialClientState.last_name !== formClient.last_name ||
+      initialClientState.email !== formClient.email ||
+      initialClientState.phone !== formClient.phone ||
+      initialClientState.reminder_preference !== formClient.reminder_preference ||
+      initialClientState.date_of_birth !== formClient.date_of_birth ||
+      initialAddress.street !== formAddress.street ||
+      initialAddress.unit !== formAddress.unit ||
+      initialAddress.city !== formAddress.city ||
+      initialAddress.state !== formAddress.state ||
+      initialAddress.postal_code !== formAddress.postal_code;
 
     setFormDataChanged(formHasChanged);
-  }, [formClient, formAddress, initialClient, initialAddress]);
+    console.log("formDataChanged has changed to: " + formHasChanged);
+  }, [formClient, formAddress, initialClientState, initialAddress]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formDataChanged) {
-      //   updateClient.bind(null, client.id);
       const formData = new FormData(event.currentTarget);
-      updateClientWithId(formData);
-      setFormDataChanged(false);
+      console.log("formData:");
+      console.log(formData);
+      try {
+        setFormDataChanged(false);
+        setInitialClientState(formClient);
+        await updateClientWithId(formData, pathname);
+      } catch (error) {
+        console.error("Error updating client:", error);
+      }
     }
   };
 
-const handleCancelClick = () => {
+  const handleCancelClick = () => {
     const inputs = document.querySelectorAll("input");
-  
-    inputs.forEach(input => {
+
+    inputs.forEach((input) => {
       const name = input.getAttribute("name");
-  
+
       if (name === "reminder_preference") {
         const checkedValue = parseInt(input.value);
         const isChecked = checkedValue === initialClient.reminder_preference;
         input.checked = isChecked;
       } else {
         if (name && initialClient.hasOwnProperty(name)) {
-          const value = name === "date_of_birth" ? dateOfBirth : (initialClient as any)[name];
+          const value =
+            name === "date_of_birth"
+              ? dateOfBirth
+              : (initialClient as any)[name];
           input.value = value;
         }
         if (name && initialAddress.hasOwnProperty(name)) {
@@ -89,7 +100,7 @@ const handleCancelClick = () => {
         }
       }
     });
-  
+
     setFormDataChanged(false);
   };
 
@@ -365,7 +376,7 @@ const handleCancelClick = () => {
                   <div className="mt-2">
                     <input
                       type="text"
-                      name="postalCode"
+                      name="postal_code"
                       id="postal-code"
                       defaultValue={formAddress.postal_code}
                       onChange={handleInputChange}
@@ -382,7 +393,9 @@ const handleCancelClick = () => {
             type="button"
             disabled={!formDataChanged}
             onClick={handleCancelClick}
-            className={`text-sm font-semibold leading-6  ${formDataChanged ? "text-gray-900" : "cursor-default text-gray-300"}`}
+            className={`text-sm font-semibold leading-6  ${
+              formDataChanged ? "text-gray-900" : "cursor-default text-gray-300"
+            }`}
           >
             Cancel
           </button>
