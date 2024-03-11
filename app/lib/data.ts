@@ -6,6 +6,7 @@ import {
   UpcomingSessionRaw,
   RecentClientRaw,
   Client,
+  Address,
 } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
@@ -71,6 +72,29 @@ export async function fetchClientById(id: string): Promise<Client> {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch client.');
+  }
+}
+
+export async function fetchAddressById(id: string): Promise<Address> {
+  try {
+    const data = await sql<Address>`
+      SELECT
+        address.id,
+        address.unit,
+        address.street,
+        address.city,
+        address.state,
+        address.postal_code
+      FROM address
+      JOIN client ON address.id = client.address_id
+      WHERE client.id = ${id};
+    `;
+
+    // console.log(data.rows[0]);
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch address.');
   }
 }
 
