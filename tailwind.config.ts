@@ -18,6 +18,9 @@ const config: Config = {
           600: '#2F6FEB',
         },
       },
+      backgroundImage: {
+        'homepage': "url('../public/cornered-stairs.svg')",
+      }
     },
     keyframes: {
       shimmer: {
