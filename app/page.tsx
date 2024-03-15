@@ -7,8 +7,8 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 export default function Home() {
   return (
-    <main className="flex w-screen h-dvh md:min-h-screen flex-row items-center md:justify-center p-8 md:p-24 bg-homepage bg-bottom bg-cover">
-      <div className="md:w-3/4 md:h-[50vh] flex flex-col md:flex-row bg-gray-50 rounded-lg drop-shadow-md ">
+    <main className="flex w-screen h-svh md:min-h-screen flex-row items-center md:justify-center p-8 md:p-24 bg-homepage bg-bottom bg-cover">
+      <div className="h-50svh md:w-3/4 md:h-[50vh] flex flex-col md:flex-row bg-gray-50 rounded-lg drop-shadow-md ">
         <div className="md:justify-start w-full md:w-5/12 md:m-2 p-2 md:p-0 order-last md:order-first flex flex-col">
           <h1
             className={`${dmSerifDisplay.className} text-center text-2xl md:text-left md:text-3xl`}
