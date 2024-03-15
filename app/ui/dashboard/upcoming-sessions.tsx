@@ -40,13 +40,13 @@ export default async function UpcomingSessions() {
               <div
                 key={session.id}
                 className={clsx(
-                  "flex flex-row items-center justify-between py-4",
+                  "flex flex-col md:flex-row md:items-center justify-between py-4",
                   {
                     "border-t": i !== 0,
                   }
                 )}
               >
-                <div className="flex items-center">
+                <div className="flex items-center sm:order-last md:order-first">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
                       {session.time}
@@ -57,7 +57,7 @@ export default async function UpcomingSessions() {
                   </div>
                 </div>
                 <p
-                  className={`${dmSerifDisplay.className} truncate text-sm font-medium md:text-base`}
+                  className={`${dmSerifDisplay.className} truncate sm:order-first md:order-last font-medium`}
                 >
                   {session.client_name}
                 </p>
