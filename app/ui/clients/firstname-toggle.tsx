@@ -4,6 +4,7 @@ import { dmSerifDisplay } from "@/app/ui/fonts";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import clsx from "clsx";
 
 export default function FirstNameSortToggle() {
   const [sortAsc, setSortAsc] = useState(true);
@@ -31,9 +32,9 @@ export default function FirstNameSortToggle() {
   
 
   return (
-    <div className="flex items-center">
-      <h2 className={`${dmSerifDisplay.className} text-xl md:text-xl`}>
-        First Name
+    <div className="flex content-between md:items-center">
+      <h2 className={`${dmSerifDisplay.className} text-lg md:text-xl`}>
+        First<span className={window.innerWidth < 450 ? "hidden" : ""}> Name</span>
       </h2>
       <span className="pointer-events-none inset-y-0 right-0 flex items-center pr-2">
         <ChevronUpDownIcon

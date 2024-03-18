@@ -30,13 +30,13 @@ export default async function Page({
   const currentPage = Number(searchParams?.page) || 1;
 
   return (
-    <main className="h-full">
+    <main className="h-lvh md:h-full -mt-6 md:mt-0">
       <h1 className={`${dmSerifDisplay.className} mb-4 text-xl md:text-2xl`}>
         <Link href="/dashboard/clients">Clients</Link>
       </h1>
-      <div className="flex w-full rounded-xl bg-gray-50 p-4 mb-4">
+      <div className=" w-full flex flex-col md:flex-row gap-y-2  rounded-xl bg-gray-50 md:p-4 md:mb-4 p-2 mb-2">
         <ClientSearch />
-        <div className="flex w-1/2 justify-start gap-x-4">
+        <div className="flex justify-between md:w-1/2 md:justify-start gap-x-4">
           <NewClientButton />
           <ToggleActive />
         </div>
@@ -45,13 +45,13 @@ export default async function Page({
         <table className="table-fixed">
           <thead>
             <tr>
-              <th className="w-1/4 pb-4">
+              <th className="w-1/4 md:w-1/4 pb-4">
                 <FirstNameSortToggle />
               </th>
-              <th className="w-1/4 pb-4">
+              <th className="w-1/4 md:w-1/4 pb-4">
                 <LastNameSortToggle />
               </th>
-              <th className="w-1/2 pb-4">
+              <th className="w-1/2 md:w-1/2 pb-4">
                 <LastSeenSortToggle />
               </th>
             </tr>

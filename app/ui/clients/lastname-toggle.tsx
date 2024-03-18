@@ -31,8 +31,8 @@ export default function LastNameSortToggle() {
 
   return (
     <div className="flex items-center">
-      <h2 className={`${dmSerifDisplay.className} text-xl md:text-xl`}>
-        Last Name
+      <h2 className={`${dmSerifDisplay.className} text-lg md:text-xl`}>
+        Last<span className={window.innerWidth < 450 ? "hidden" : ""}> Name</span>
       </h2>
       <span className="pointer-events-none inset-y-0 right-0 flex items-center pr-2">
         <ChevronUpDownIcon
