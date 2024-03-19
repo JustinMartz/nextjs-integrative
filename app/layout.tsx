@@ -3,8 +3,12 @@ import '@/app/ui/global.css';
 import { inter } from '@/app/ui/fonts';
 
 export const metadata: Metadata = {
-  title: "Integrative Counseling",
-  description: "Next.js app for mental health providers and clients",
+  title: {
+    template: '%s | Integrative Practice',
+    default: 'Integrative Practice',
+  },
+  description: 'Next.js app for mental health providers and clients',
+  metadataBase: new URL('https://nextjs-integrative.vercel.app/'),
 };
 
 export default function RootLayout({

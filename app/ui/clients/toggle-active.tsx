@@ -22,7 +22,7 @@ export default function ToggleActive() {
   };
 
   return (
-        <div className="flex items-center px-3 py-2 rounded-full shadow-md bg-white">
+        <div className="flex items-center px-2 py-2 md:px-3 md:py-2 rounded-full shadow-md bg-white">
           <label htmlFor="active" className={styles.switch}>
           <input type="checkbox" id="active" name="active" checked={hideInactive} onChange={handleChange} />
             <span className={`${styles.slider} ${styles.round}`}></span>
