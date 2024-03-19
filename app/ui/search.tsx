@@ -25,7 +25,7 @@ export default function ClientSearch() {
             Search
           </label>
           <input
-            className="peer w-full md:w-3/4 block rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+            className="peer w-full md:w-3/4 block rounded-md border border-gray-200 py-[9px] pl-10 text-base md:text-sm outline-2 placeholder:text-gray-500"
             placeholder='Search for client'
             onChange={(e) => {
               handleSearch(e.target.value);
