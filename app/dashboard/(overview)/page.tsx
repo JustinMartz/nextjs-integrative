@@ -11,7 +11,7 @@ import {
 
 export default async function Page() {
   return (
-    <main className="h-full">
+    <main className="h-lvh md:h-full -mt-6 md:mt-0">
       <h1 className={`${dmSerifDisplay.className} mb-4 text-xl md:text-2xl`}>
         Dashboard
       </h1>

@@ -39,7 +39,7 @@ export default function Home() {
             href="/dashboard"
             className="w-fit flex justify-center md:justify-end items-center gap-3 my-6 md:gap-5  md:m-0 md:mt-4 rounded-lg bg-blue-500 px-4 py-2 md:px-6 md:py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
           >
-            <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
+            <span>Try it out</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
           </div>
         </div>

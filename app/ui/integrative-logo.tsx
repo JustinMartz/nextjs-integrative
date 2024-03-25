@@ -7,7 +7,7 @@ export default function IntegrativeLogo() {
       className={`${dmSerifDisplay.className} flex flex-row items-center leading-none text-white`}
     >
       <PuzzlePieceIcon className="h-10 w-10 rotate-[15deg]" />
-      <p className="text-[36px] pl-2">Integrative<br />Counseling</p>
+      <p className="text-[36px] pl-2">Integrative<br />Practice</p>
     </div>
   );
 }

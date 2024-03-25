@@ -20,7 +20,7 @@ export default function ClientSearch() {
   }, 300);
   
     return (
-        <div className="w-full relative flex flex-1 flex-shrink-0 bg-pink-100">
+        <div className="w-full relative flex flex-1 flex-shrink-0">
           <label htmlFor="search" className="sr-only">
             Search
           </label>
