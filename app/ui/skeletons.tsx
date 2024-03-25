@@ -81,17 +81,23 @@ export function RecentClientsSkeleton() {
 }
 
 export function DisplayClientsSkeleton() {
+  const renderRows = () => {
+    const rows = [];
+    for (let i = 0; i < 10; i++) {
+      rows.push(
+        <tr key={i} className={`${shimmer} relative min-h-4 w-full bg-white overflow-hidden md:col-span-4`}>
+          <td className="bg-white py-4"></td>
+          <td className="bg-white py-4"></td>
+          <td className="bg-white py-4"></td>
+        </tr>
+      );
+    }
+    return rows;
+  };
+
   return (
-    <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4`}>
-      <div className="mb-4 h-8 w-36 rounded-md bg-gray-100" /> {/* heading */}
-      <div className="rounded-xl bg-gray-100 p-4">
-        <div className="mt-0 grid h-[384px] grid-cols-12 items-end gap-2 rounded-md bg-white p-4 sm:grid-cols-13 md:gap-4" />
-        <div className="flex items-center pb-2 pt-6">
-          <div className="h-5 w-5 rounded-full bg-gray-200" /> {/* icon */}
-          <div className="ml-2 h-4 w-20 rounded-md bg-gray-200" />{" "}
-          {/* updated now */}
-        </div>
-      </div>
-    </div>
-  );  
+    <tbody>
+      {renderRows()}
+    </tbody>
+  );
 }
