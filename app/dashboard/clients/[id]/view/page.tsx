@@ -10,11 +10,11 @@ export default async function Page({ params }: { params: { id: string } }) {
   ]);
 
   return (
-    <main className="h-full flex flex-col">
-      <h1 className={`${dmSerifDisplay.className} mb-4 text-xl md:text-2xl`}>
+    <main className="min-h-fit flex flex-col -mt-8 -mx-3 md:mt-0 md:mx-0">
+      <h1 className={`${dmSerifDisplay.className} mb-2 md:mb-4 text-xl md:text-2xl`}>
         {client.first_name} {client.last_name}
       </h1>
-      <div className="w-1/2 flex flex-col flex-1 max-h-full overflow-auto">
+      <div className="md:w-1/2 flex flex-col flex-1 max-h-full overflow-auto">
         <EditClientForm client={client} address={address}/>
       </div>
     </main>
