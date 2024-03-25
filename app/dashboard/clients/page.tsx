@@ -34,7 +34,7 @@ export default async function Page({
       <h1 className={`${dmSerifDisplay.className} mb-4 text-xl md:text-2xl`}>
         <Link href="/dashboard/clients">Clients</Link>
       </h1>
-      <div className=" w-full flex flex-col md:flex-row gap-y-2 rounded-xl bg-gray-50 md:p-4 md:mb-4 p-2 mb-2">
+      <div className="w-full flex flex-col md:flex-row gap-y-2 rounded-xl bg-gray-50 md:p-4 md:mb-4 p-2 mb-2">
         <ClientSearch />
         <div className="flex justify-between md:w-1/2 md:justify-start gap-x-4">
           <NewClientButton />

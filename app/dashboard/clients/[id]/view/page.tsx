@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   ]);
 
   return (
-    <main className="min-h-fit flex flex-col -mt-8 -mx-3 md:mt-0 md:mx-0">
+    <main className="min-h-fit flex flex-col -mt-6 -mx-3 md:mt-0 md:mx-0 px-2">
       <h1 className={`${dmSerifDisplay.className} mb-2 md:mb-4 text-xl md:text-2xl`}>
         {client.first_name} {client.last_name}
       </h1>
