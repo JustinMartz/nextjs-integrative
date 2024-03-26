@@ -194,6 +194,7 @@ export async function fetchUpcomingSessions() {
       ...session,
       id: session.id,
       time: new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Denver",
         weekday: "long",
         month: "long",
         day: "numeric",
