@@ -215,6 +215,9 @@ export async function fetchUpcomingSessions() {
   function calculateTimeDifference(startTime: Date) {
     const currentTime = new Date();
     const startTimeDate = new Date(startTime);
+    console.log('currentTime: ' + new Date());
+    console.log('startTime: ' + new Date(startTime));
+    console.log('***');
 
     // Calculate the difference in milliseconds
     const differenceInMs = startTimeDate.getTime() - currentTime.getTime();
