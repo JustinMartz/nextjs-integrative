@@ -11,6 +11,8 @@ import {
 import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
 
+const { DateTime } = require("luxon");
+
 export async function fetchFilteredClients(query: string) {
   noStore();
   try {
@@ -202,7 +204,7 @@ export async function fetchUpcomingSessions() {
         hour: "numeric",
         minute: "numeric",
       }).format(new Date(session.start_time)),
-      time_difference: calculateTimeDifference(new Date(session.start_time)),
+      time_difference: calculateTimeDifference(new Date(session.start_time).toISOString()),
       client_name: session.client_name,
     }));
 
@@ -212,33 +214,46 @@ export async function fetchUpcomingSessions() {
     throw new Error("Failed to fetch the latest sessions.");
   }
 
-  function calculateTimeDifference(startTime: Date) {
-    const currentTime = new Date();
-    const startTimeDate = new Date(startTime);
-    console.log('currentTime: ' + new Date());
-    console.log('startTime: ' + new Date(startTime));
+  function calculateTimeDifference(sTime: string) {
+    // const currentTime = new Date();
+    const currentTime = DateTime.now().setZone('America/Denver');
+    // const startTimeDate = new Date(startTime);
+    const startTime = DateTime.fromISO(sTime, { zone: 'America/Denver' });
+    console.log('currentTime: ' + currentTime.toISO());
+    console.log('startTime: ' + startTime.toISO());
     console.log('***');
 
-    // Calculate the difference in milliseconds
-    const differenceInMs = startTimeDate.getTime() - currentTime.getTime();
+    const diff = startTime.diff(currentTime, ['days', 'hours', 'minutes']).toObject();
+    let { days, hours, minutes } = diff;
+    if (minutes !== 0 && minutes % 1 !== 0) {
+      minutes = Math.ceil(minutes);
+    }
 
-    // Convert milliseconds to days, hours, and minutes
-    // const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
-    const hours =
-      Math.floor((differenceInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes =
-      Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60)) + 1;
+    if (startTime.day > currentTime.day) {
+      days = startTime.day - currentTime.day;
+    }
+
+    // // Calculate the difference in milliseconds
+    // const differenceInMs = startTime.toUnixInteger() - currentTime.toUnixInteger();
+    // console.log('difference in ms: ' + differenceInMs);
+
+    // // Convert milliseconds to days, hours, and minutes
+    // // const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+    // const hours =
+    //   Math.floor((differenceInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    // const minutes =
+    //   Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60)) + 1;
 
     let timeDifferenceString = "";
-    const days = startTime.getDate() - currentTime.getDate();
+    // const days = startTime.day - currentTime.day;
 
-    // console.log('=============');
+    console.log('=============');
     // console.log('session date: ' + startTime);
     // console.log('current date: ' + currentTime);
-    // console.log('days: ' + days);
-    // console.log('hours: ' + hours);
-    // console.log('minutes: ' + minutes);
-    if (startTime.getDay() > currentTime.getDay()) {
+    console.log('days: ' + days);
+    console.log('hours: ' + hours);
+    console.log('minutes: ' + minutes);
+    if (startTime.day > currentTime.day) {
       // console.log(
       //   "session is " +
       //     (startTime.getDay() - currentTime.getDay()) +

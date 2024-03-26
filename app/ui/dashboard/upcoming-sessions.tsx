@@ -5,6 +5,8 @@ import { fetchUpcomingSessions } from "@/app/lib/data";
 
 export default async function UpcomingSessions() {
   const upcomingSessions = await fetchUpcomingSessions();
+  for (let u of upcomingSessions)
+    console.log(u);
 
   function isEmpty(obj: any) {
     return Object.keys(obj).length === 0;
