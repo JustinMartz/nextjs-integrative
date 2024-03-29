@@ -1,41 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Integrative Practice
+A 'data dashboard' for psychotherapists who own or run their own practice.
 
-## Getting Started
+![Screenshot of Integrative Practice on mobile.](integrative-mobile.png)
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Built with __Next.js__, __Tailwind__, and __PostgreSQL__.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+_With intuitive features designed specifically for independent practitioners, Integrative Practice empowers therapists to deliver their best care effortlessly._
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contents
+* [Overview](#overview)
+* [Try it out](#try-it-out)
+* [Features](#features)
+* [Technologies Used](#technologies-used)
+* [To-do](#to-do)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Overview
 
-## Learn More
+__Integrative Practice__ is a web app where mental health practioners can keep track of their clients and appointments. 
 
-To learn more about Next.js, take a look at the following resources:
+### Try It Out
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Try it here: https://nextjs-integrative.vercel.app/
+### Features
+* :calling: Mobile-first, responsive design
+* :floppy_disk: Implements full CRUD
+* :brain: Intelligent forms
+* :mantelpiece_clock: Intelligent time and date formatting
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Technologies Used
+* React/Next.js
+* PostgreSQL
+* TypeScript
+* [Luxon date wrapper for JavaScript](https://moment.github.io/luxon/#/)
 
-## Deploy on Vercel
+### To-do
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-=======
-# nextjs-integrative
-Next.js app for mental health providers and clients
-
-<a href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">Free SVG Backgrounds and Patterns by SVGBackgrounds.com</a>
+<a href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">Background made with SVGBackgrounds.com</a>
