@@ -41,7 +41,7 @@ Try it here: https://nextjs-integrative.vercel.app/
 ### To-do
 - [ ] Build calendar component
 
-- [ ] #10
+- [ ] https://github.com/JustinMartz/nextjs-integrative/issues/10
 
 ### Attribution
 
