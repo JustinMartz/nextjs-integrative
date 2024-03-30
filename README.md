@@ -39,9 +39,9 @@ Try it here: https://nextjs-integrative.vercel.app/
 * [Luxon date wrapper for JavaScript](https://moment.github.io/luxon/#/)
 
 ### To-do
-[ ] Build calendar component
+- [ ] Build calendar component
 
-[ ] #10
+- [ ] #10
 
 ### Attribution
 
