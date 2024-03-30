@@ -19,6 +19,8 @@ _With intuitive features designed specifically for independent practitioners, In
 
 __Integrative Practice__ is a web app where mental health practioners can keep track of their clients and appointments. 
 
+Built as an ongoing proof-of-concept that will eventually be refactored into a standalone desktop application.
+
 ### Try It Out
 
 Try it here: https://nextjs-integrative.vercel.app/
@@ -27,14 +29,21 @@ Try it here: https://nextjs-integrative.vercel.app/
 * :floppy_disk: Implements full CRUD
 * :brain: Intelligent forms
 * :mantelpiece_clock: Intelligent time and date formatting
+* :dart: Searchable and sortable client list
 
 ### Technologies Used
-* React/Next.js
+* React
+* Next.js
 * PostgreSQL
 * TypeScript
 * [Luxon date wrapper for JavaScript](https://moment.github.io/luxon/#/)
 
 ### To-do
+[ ] Build calendar component
+[ ] 
 
+### Attribution
 
-<a href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">Background made with SVGBackgrounds.com</a>
+Background made with <a href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">SVGBackgrounds.com</a>
+
+iPhone mockup made with <a href="https://www.freepik.com">Freepik</a>
