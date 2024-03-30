@@ -1,7 +1,7 @@
 # Integrative Practice
 A 'data dashboard' for psychotherapists who own or run their own practice.
 
-<img src="iphone.png" alt="iPhone mockup" width="200"/>
+<img src="iPhone.png" alt="iPhone mockup" width="200"/>
 
 
 Built with __Next.js__, __Tailwind__, and __PostgreSQL__.
@@ -40,7 +40,7 @@ Try it here: https://nextjs-integrative.vercel.app/
 
 ### To-do
 [ ] Build calendar component
-[ ] 
+[ ] https://github.com/JustinMartz/nextjs-integrative/issues/10
 
 ### Attribution
 
