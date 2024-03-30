@@ -40,7 +40,8 @@ Try it here: https://nextjs-integrative.vercel.app/
 
 ### To-do
 [ ] Build calendar component
-[ ] https://github.com/JustinMartz/nextjs-integrative/issues/10
+
+[ ] #10
 
 ### Attribution
 
