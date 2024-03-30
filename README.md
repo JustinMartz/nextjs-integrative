@@ -1,7 +1,7 @@
 # Integrative Practice
 A 'data dashboard' for psychotherapists who own or run their own practice.
 
-![Screenshot of Integrative Practice on mobile.](integrative-mobile.png)
+![Screenshot of Integrative Practice on mobile.](iphone.png | width=100)
 
 
 Built with __Next.js__, __Tailwind__, and __PostgreSQL__.
