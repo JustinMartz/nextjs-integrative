@@ -37,7 +37,7 @@ export default async function Page({
       <div className="w-full flex flex-col md:flex-row gap-y-2 rounded-xl bg-gray-50 md:p-4 md:mb-4 p-2 mb-2">
         <ClientSearch />
         <div className="flex justify-between md:w-1/2 md:justify-start gap-x-4">
-          <NewClientButton />
+          <Link href='clients/add'><NewClientButton /></Link>
           <ToggleActive />
         </div>
       </div>
